@@ -1,6 +1,6 @@
 package models.file;
 
-import configs.ApplicationConfig;
+import configs.application.ApplicationConfig;
 import models.application.ApplicationModel;
 
 import java.io.File;

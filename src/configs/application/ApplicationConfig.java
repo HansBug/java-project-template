@@ -1,4 +1,4 @@
-package configs;
+package configs.application;
 
 import interfaces.application.ApplicationInterface;
 
