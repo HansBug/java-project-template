@@ -1,2 +1,3 @@
 # java-project-template
-HansBug's java project template based on ruby on rails structure23333.
+HansBug的java工程模板23333
+
