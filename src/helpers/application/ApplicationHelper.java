@@ -1,4 +1,4 @@
-package helpers;
+package helpers.application;
 
 import interfaces.application.ApplicationInterface;
 
