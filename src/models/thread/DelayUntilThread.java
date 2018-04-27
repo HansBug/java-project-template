@@ -1,5 +1,6 @@
 package models.thread;
 
+import event.thread.ThreadBeforeTriggerEvent;
 import models.time.Timestamp;
 
 /**
@@ -49,12 +50,11 @@ public abstract class DelayUntilThread<T> extends TriggerThread<T> {
     /**
      * 等待方法
      *
-     * @return true
+     * @param e 触发前事件对象
      * @throws InterruptedException 中断异常
      */
     @Override
-    public boolean beforeTrigger() throws InterruptedException {
+    public void beforeTrigger(ThreadBeforeTriggerEvent e) throws InterruptedException {
         sleepUntil(this.until_time);
-        return true;
     }
 }

@@ -1,5 +1,8 @@
 package interfaces.thread;
 
+import event.thread.ThreadBeforeTriggerEvent;
+import event.thread.ThreadTriggerEvent;
+
 /**
  * 触发器线程接口
  *
@@ -9,16 +12,16 @@ public interface TriggerThreadInterface<T> extends ApplicationThreadInterface {
     /**
      * 触发等待
      *
-     * @return 是否需要触发
+     * @param e 触发前事件对象
      * @throws Throwable 任意异常类
      */
-    boolean beforeTrigger() throws Throwable;
+    void beforeTrigger(ThreadBeforeTriggerEvent e) throws Throwable;
     
     /**
      * 触发方法
      *
-     * @return 返回值
+     * @param e 触发事件对象
      * @throws Throwable 任意异常类
      */
-    T trigger() throws Throwable;
+    void trigger(ThreadTriggerEvent<T> e) throws Throwable;
 }

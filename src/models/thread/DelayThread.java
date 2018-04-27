@@ -1,5 +1,7 @@
 package models.thread;
 
+import event.thread.ThreadBeforeTriggerEvent;
+
 /**
  * 延时触发线程
  * <p>
@@ -47,12 +49,11 @@ public abstract class DelayThread<T> extends TriggerThread<T> {
     /**
      * 延时
      *
-     * @return true
-     * @throws InterruptedException 中断异常
+     * @param e 触发前事件对象
+     * @throws InterruptedException 异常终端
      */
     @Override
-    public boolean beforeTrigger() throws InterruptedException {
+    public void beforeTrigger(ThreadBeforeTriggerEvent e) throws InterruptedException {
         sleep(wait_time);
-        return true;
     }
 }

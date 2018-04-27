@@ -1,3 +1,5 @@
+import event.thread.ThreadExceptionEvent;
+import event.thread.ThreadTriggerEvent;
 import models.file.FileAppendWriter;
 import models.file.LogWriter;
 import models.thread.DelayThread;
@@ -109,6 +111,15 @@ public abstract class Sample {
                 System.out.println(String.format("[%s] Circulation complete!", new Timestamp()));
                 System.out.println(String.format("Final count is %s", count));
             }
+            
+            /**
+             * 捕捉到异常后
+             * @param e 异常被触发事件
+             */
+            @Override
+            public void exceptionCaught(ThreadExceptionEvent e) {
+                e.getThrowable().printStackTrace();
+            }
         };
         t.start();
         
@@ -135,9 +146,13 @@ public abstract class Sample {
         // 延时式线程，start后2s执行
         DelayThread t1 = new DelayThread(2000) {
             @Override
-            public Object trigger() throws Throwable {
+            public void trigger(ThreadTriggerEvent e) throws Throwable {
                 System.out.println(String.format("[%s] delay thread triggered!", new Timestamp()));
-                return null;
+            }
+            
+            @Override
+            public void exceptionCaught(ThreadExceptionEvent e) {
+                e.getThrowable().printStackTrace();
             }
         };
         t1.start();
@@ -146,11 +161,16 @@ public abstract class Sample {
         // 我不会告诉你出租车3s窗口期用这个弄爽的不行的2333，又准又好写
         DelayUntilThread t2 = new DelayUntilThread(timestamp.getOffseted(5000)) {
             @Override
-            public Object trigger() throws Throwable {
+            public void trigger(ThreadTriggerEvent e) throws Throwable {
                 System.out.println(String.format("[%s] delay until thread triggered!", new Timestamp()));
-                return null;
+            }
+            
+            @Override
+            public void exceptionCaught(ThreadExceptionEvent e) {
+                e.getThrowable().printStackTrace();
             }
         };
+        
         t2.start();
         
         t1.join();

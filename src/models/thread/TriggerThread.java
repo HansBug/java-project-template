@@ -1,5 +1,7 @@
 package models.thread;
 
+import event.thread.ThreadBeforeTriggerEvent;
+import event.thread.ThreadTriggerEvent;
 import interfaces.thread.TriggerThreadInterface;
 
 /**
@@ -7,8 +9,9 @@ import interfaces.thread.TriggerThreadInterface;
  * <p>
  * 功能：
  * 1、进行判定（beforeTrigger）后触发（trigger）
- * 2、判定方法返回false则不会触发直接结束
- * 3、可以通过getReturnValue获取触发器函数返回值（如果不需要直接返回null即可）
+ * 2、可以通过改变ThreadBeforeTriggerEvent内的AllowTrigger值来决定是否允许执行trigger（默认允许）
+ * 3、可以通过改变ThreadTriggerEvent内的ReturnValue设置trigger函数返回值（默认为null）
+ * 4、可以从外部通过getReturnValue来获取trigger函数返回值
  *
  * @param <T> 返回值类型
  */
@@ -23,8 +26,12 @@ public abstract class TriggerThread<T> extends ApplicationThread implements Trig
      */
     @Override
     public void execute() throws Throwable {
-        if (this.beforeTrigger()) {
-            this.return_value = this.trigger();
+        ThreadBeforeTriggerEvent before_trigger_event = new ThreadBeforeTriggerEvent(this);
+        this.beforeTrigger(before_trigger_event);
+        if (before_trigger_event.getAllowTrigger()) {
+            ThreadTriggerEvent<T> trigger_event = new ThreadTriggerEvent<>(this);
+            this.trigger(trigger_event);
+            this.return_value = trigger_event.getReturnValue();
         }
     }
     
