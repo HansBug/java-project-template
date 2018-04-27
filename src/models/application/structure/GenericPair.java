@@ -6,6 +6,10 @@ import java.util.Arrays;
 
 /**
  * 二元对类
+ * <p>
+ * 功能：
+ * 1、存储一个二元对
+ * 2、提供哈希判定和相等性判定功能
  *
  * @param <X> 类型X
  * @param <Y> 类型Y

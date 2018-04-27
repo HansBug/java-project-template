@@ -11,12 +11,19 @@ import java.util.Iterator;
 
 /**
  * 文件追加写入器
- * 支持暂存写入行信息（即出现文件IO错误时待写入的信息不会丢失，将在下一次dump时一并写入）
+ * <p>
+ * 功能：
+ * 1、文件追加写信息
+ * <p>
+ * 特性：
+ * 1、在构造类时可以选择是否为追加模式（即是在原来基础上继续写还是清空）
+ * 2、支持暂存写入行信息（出现IO错误时待写入信息不会丢失，将在下一次一并写入）
+ * <p>
  * 注意：
  * 1、该类为线程安全类
  * 2、但是，在文件层面未进行线程安全处理，故依然需要在涉及多线程访问的时候注意进行基于文件目标的线程安全封装
  */
-public class FileAppendWritter extends ApplicationModel {
+public class FileAppendWriter extends ApplicationModel {
     /**
      * 文件名
      */
@@ -32,7 +39,7 @@ public class FileAppendWritter extends ApplicationModel {
      *
      * @param filename 写入目标
      */
-    public FileAppendWritter(String filename) {
+    public FileAppendWriter(String filename) {
         this(filename, false);
     }
     
@@ -42,7 +49,7 @@ public class FileAppendWritter extends ApplicationModel {
      * @param filename 写入目标
      * @param append   是否为追加模式（否则清空文件原内容）
      */
-    public FileAppendWritter(String filename, boolean append) {
+    public FileAppendWriter(String filename, boolean append) {
         this.filename = filename;
         if (!append) this.clear();
     }
@@ -115,7 +122,7 @@ public class FileAppendWritter extends ApplicationModel {
      *
      * @param line 行信息
      */
-    public void append(String line) {
+    public synchronized void append(String line) {
         this.addToQueue(line);
         this.dumpQueue();
     }

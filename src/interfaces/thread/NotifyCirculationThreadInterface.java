@@ -5,7 +5,7 @@ import interfaces.application.ApplicationInterface;
 /**
  * 提醒轮询线程接口
  */
-public interface NotifyCirculationThreadInterface extends ApplicationInterface {
+public interface NotifyCirculationThreadInterface extends ApplicationThreadInterface {
     /**
      * 轮询开始前执行
      *

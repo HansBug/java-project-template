@@ -1,0 +1,58 @@
+package models.thread;
+
+/**
+ * 延时触发线程
+ * <p>
+ * 特性：
+ * 1、继承TriggerThread
+ * <p>
+ * 功能：
+ * 1、start后等待一定的时间（sleep）后触发trigger
+ *
+ * @param <T> 返回值类型
+ */
+public abstract class DelayThread<T> extends TriggerThread<T> {
+    /**
+     * 等待时间
+     */
+    private long wait_time;
+    
+    /**
+     * 获取等待时间
+     *
+     * @return 等待时间
+     */
+    public long getWaitTime() {
+        return wait_time;
+    }
+    
+    /**
+     * 设置等待时间
+     *
+     * @param wait_time 等待时间
+     */
+    protected void setWaitTime(long wait_time) {
+        this.wait_time = wait_time;
+    }
+    
+    /**
+     * 构造函数
+     *
+     * @param wait_time 等待时间
+     */
+    public DelayThread(long wait_time) {
+        setWaitTime(wait_time);
+    }
+    
+    /**
+     * 延时
+     *
+     * @return true
+     * @throws InterruptedException 中断异常
+     */
+    @Override
+    public boolean beforeTrigger() throws InterruptedException {
+        sleep(wait_time);
+        return true;
+    }
+}

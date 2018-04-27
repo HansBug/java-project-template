@@ -4,7 +4,9 @@ import interfaces.application.ApplicationInterface;
 
 /**
  * 异常类基类
- * 通过继承此类，可用于较好的区分人工抛出的异常和java本身的异常
+ *
+ * 建议：
+ * 1、用户自定义的异常类应继承此类，可用于较好的区分人工异常和java异常
  */
 public abstract class ApplicationException extends Exception implements ApplicationInterface {
     /**
