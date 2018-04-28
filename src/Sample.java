@@ -1,11 +1,14 @@
 import event.thread.ThreadExceptionEvent;
 import event.thread.ThreadTriggerEvent;
+import models.application.structure.HashExpireMap;
 import models.file.FileAppendWriter;
 import models.file.LogWriter;
 import models.thread.DelayThread;
 import models.thread.DelayUntilThread;
 import models.thread.SimpleCirculationThread;
 import models.time.Timestamp;
+
+import java.util.Map;
 
 import static java.lang.Thread.sleep;
 import static models.thread.ApplicationThread.sleepUntil;
@@ -25,6 +28,7 @@ public abstract class Sample {
         testWriters();
         testCirculationThread();
         testDelayedThread();
+        testHashExpireMap();
     }
     
     /**
@@ -175,5 +179,63 @@ public abstract class Sample {
         
         t1.join();
         t2.join();
+    }
+    
+    /**
+     * HashExpireMap效果展示
+     *
+     * @throws Throwable 任意异常类
+     */
+    private static void testHashExpireMap() throws Throwable {
+        System.out.println();
+        HashExpireMap<Integer, Integer> map = new HashExpireMap<>();
+        map.put(23, 1);  // 无限期
+        map.put(233, 2, 1000);  // 设定后1000ms超时
+        map.put(2333, 3, new Timestamp().getOffseted(823));  // 设定时间点后超时
+        
+        SimpleCirculationThread t1 = new SimpleCirculationThread() {  // 用于实时观察map内部变化的线程
+            @Override
+            public void beforeCirculation() throws Throwable {
+            
+            }
+            
+            @Override
+            public void circulation() throws Throwable {
+                System.out.print(String.format("[%s] ", new Timestamp()));
+                for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+                    System.out.print(String.format("%s: %s, ", entry.getKey(), entry.getValue()));
+                }
+                System.out.println();
+                sleep(1);
+            }
+            
+            @Override
+            public void afterCirculation() throws Throwable {
+            
+            }
+            
+            @Override
+            public void exceptionCaught(ThreadExceptionEvent e) {
+            
+            }
+        };
+        t1.start();
+        
+        
+        DelayThread t2 = new DelayThread(1500) {  // 1500ms 后结束t1
+            @Override
+            public void trigger(ThreadTriggerEvent e) throws Throwable {
+                t1.exitGracefully();
+            }
+            
+            @Override
+            public void exceptionCaught(ThreadExceptionEvent e) {
+                e.getThrowable().printStackTrace();
+            }
+        };
+        t2.start();
+        
+        t2.join();
+        t1.join();
     }
 }

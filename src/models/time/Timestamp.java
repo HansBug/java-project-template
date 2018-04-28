@@ -113,4 +113,16 @@ public class Timestamp extends HashBasedModel implements Comparable<Timestamp> {
     public int hashCode() {
         return this.timestamp.hashCode();
     }
+    
+    
+    /**
+     * 比较两个时间戳对象
+     *
+     * @param timestamp1 时间戳1
+     * @param timestamp2 时间戳2
+     * @return 比对结果
+     */
+    public static int compare(Timestamp timestamp1, Timestamp timestamp2) {
+        return timestamp1.compareTo(timestamp2);
+    }
 }
