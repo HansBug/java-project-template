@@ -1,14 +1,14 @@
 package interfaces.thread;
 
 import event.thread.ThreadBeforeTriggerEvent;
-import event.thread.ThreadTriggerEvent;
+import event.thread.ThreadTriggerWithReturnValueEvent;
 
 /**
  * 触发器线程接口
  *
  * @param <T> 返回值类型
  */
-public interface TriggerThreadInterface<T> extends ApplicationThreadInterface {
+public interface TriggerWithReturnValueInterface<T> extends ApplicationThreadInterface {
     /**
      * 触发等待
      *
@@ -23,5 +23,5 @@ public interface TriggerThreadInterface<T> extends ApplicationThreadInterface {
      * @param e 触发事件对象
      * @throws Throwable 任意异常类
      */
-    void trigger(ThreadTriggerEvent<T> e) throws Throwable;
+    void trigger(ThreadTriggerWithReturnValueEvent<T> e) throws Throwable;
 }

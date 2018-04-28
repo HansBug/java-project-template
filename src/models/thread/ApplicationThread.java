@@ -43,6 +43,6 @@ public abstract class ApplicationThread extends Thread implements ApplicationThr
         long wait_time = timestamp.getTimestamp() - System.currentTimeMillis() - SLEEP_UNTIL_TIME_LEFT;
         if (wait_time < 0) wait_time = 0;
         sleep(wait_time);
-        while (System.currentTimeMillis() < timestamp.getTimestamp()) sleep(1);
+        while (System.currentTimeMillis() < timestamp.getTimestamp()) sleep(0, 1);
     }
 }

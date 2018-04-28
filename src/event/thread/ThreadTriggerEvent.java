@@ -1,42 +1,44 @@
 package event.thread;
 
 import models.thread.ApplicationThread;
+import models.time.Timestamp;
 
 /**
- * 线程触发器事件
- *
- * @param <T> 返回值类型
+ * 线程触发器事件对象
  */
-public class ThreadTriggerEvent<T> extends ApplicationThreadEvent {
+public class ThreadTriggerEvent extends ApplicationThreadEvent {
     /**
-     * 返回值
+     * 触发时间
      */
-    private T return_value = null;
+    private final Timestamp target_timestamp;
     
     /**
-     * 线程触发器事件
+     * 获取触发事件戳
      *
-     * @param host 发生者
+     * @return 触发时间戳
+     */
+    public Timestamp getTargetTimestamp() {
+        return this.target_timestamp;
+    }
+    
+    /**
+     * 构造函数
+     *
+     * @param host              事件发生者
+     * @param target_timestamp 时间戳
+     */
+    public ThreadTriggerEvent(ApplicationThread host, Timestamp target_timestamp) {
+        super(host);
+        this.target_timestamp = target_timestamp;
+    }
+    
+    /**
+     * 构造函数（自动获取当前时间）
+     *
+     * @param host 事件发生者
      */
     public ThreadTriggerEvent(ApplicationThread host) {
         super(host);
-    }
-    
-    /**
-     * 获取返回值
-     *
-     * @return 返回值
-     */
-    public T getReturnValue() {
-        return this.return_value;
-    }
-    
-    /**
-     * 设置返回值
-     *
-     * @param return_value 返回值
-     */
-    public void setReturnValue(T return_value) {
-        this.return_value = return_value;
+        this.target_timestamp = new Timestamp();
     }
 }

@@ -1,17 +1,16 @@
 import event.thread.ThreadExceptionEvent;
 import event.thread.ThreadTriggerEvent;
+import event.thread.ThreadTriggerWithReturnValueEvent;
+import interfaces.thread.TriggerInterface;
 import models.application.structure.HashExpireMap;
 import models.file.FileAppendWriter;
 import models.file.LogWriter;
-import models.thread.DelayThread;
-import models.thread.DelayUntilThread;
-import models.thread.SimpleCirculationThread;
+import models.thread.*;
 import models.time.Timestamp;
 
 import java.util.Map;
 
 import static java.lang.Thread.sleep;
-import static models.thread.ApplicationThread.sleepUntil;
 
 /**
  * demo类
@@ -24,11 +23,13 @@ public abstract class Sample {
      * @throws Throwable 异常
      */
     public static void main(String[] args) throws Throwable {
-        testTimestamp();
-        testWriters();
-        testCirculationThread();
-        testDelayedThread();
-        testHashExpireMap();
+//        testTimestamp();
+//        testWriters();
+//        testCirculationThread();
+//        testDelayedThread();
+//        testHashExpireMap();
+        testTimelineTriggerThread();
+        testTimerThread();
     }
     
     /**
@@ -150,7 +151,7 @@ public abstract class Sample {
         // 延时式线程，start后2s执行
         DelayThread t1 = new DelayThread(2000) {
             @Override
-            public void trigger(ThreadTriggerEvent e) throws Throwable {
+            public void trigger(ThreadTriggerWithReturnValueEvent e) throws Throwable {
                 System.out.println(String.format("[%s] delay thread triggered!", new Timestamp()));
             }
             
@@ -165,7 +166,7 @@ public abstract class Sample {
         // 我不会告诉你出租车3s窗口期用这个弄爽的不行的2333，又准又好写
         DelayUntilThread t2 = new DelayUntilThread(timestamp.getOffseted(5000)) {
             @Override
-            public void trigger(ThreadTriggerEvent e) throws Throwable {
+            public void trigger(ThreadTriggerWithReturnValueEvent e) throws Throwable {
                 System.out.println(String.format("[%s] delay until thread triggered!", new Timestamp()));
             }
             
@@ -224,7 +225,7 @@ public abstract class Sample {
         
         DelayThread t2 = new DelayThread(1500) {  // 1500ms 后结束t1
             @Override
-            public void trigger(ThreadTriggerEvent e) throws Throwable {
+            public void trigger(ThreadTriggerWithReturnValueEvent e) throws Throwable {
                 t1.exitGracefully();
             }
             
@@ -237,5 +238,64 @@ public abstract class Sample {
         
         t2.join();
         t1.join();
+    }
+    
+    /**
+     * 时间线触发器效果展示
+     *
+     * @throws Throwable 任意异常类
+     */
+    private static void testTimelineTriggerThread() throws Throwable {
+        System.out.println();
+        
+        TimelineTriggerThread t1 = new TimelineTriggerThread();  // 启动时间线线程
+        t1.start();
+        
+        Timestamp timestamp = new Timestamp();  // 当前时间
+        System.out.println(String.format("Current time: %s", timestamp));
+        
+        t1.add(timestamp.getOffseted(3000), new TriggerInterface() {  // 时间戳后严格3000ms
+            @Override
+            public void trigger(ThreadTriggerEvent e) {
+                System.out.println(String.format("[%s] first trigger", new Timestamp()));
+                t1.add(100, new TriggerInterface() {  // 此trigger触发后100ms结束时间线线程
+                    @Override
+                    public void trigger(ThreadTriggerEvent e) {
+                        System.out.println(String.format("[%s] terminate!", new Timestamp()));
+                        t1.exitGracefully();
+                    }
+                });
+            }
+        });
+        
+        t1.add(2000, new TriggerInterface() {  // 调用时间后 2000ms
+            @Override
+            public void trigger(ThreadTriggerEvent e) {
+                System.out.println(String.format("[%s] second trigger", new Timestamp()));
+            }
+        });
+        
+        t1.join();
+    }
+    
+    /**
+     * TimerThread效果展示
+     *
+     * @throws Throwable 任意异常类
+     */
+    private static void testTimerThread() throws Throwable {
+        System.out.println();
+        TimerThread timer1 = new TimerThread(500) {  // 每500ms触发一次
+            private int count = 0;
+            
+            @Override
+            public void trigger(ThreadTriggerEvent e) {
+                count += 1;
+                System.out.println(String.format("[%s] %s", new Timestamp(), count));
+                if (count >= 10) this.exitGracefully();  // 你甚至可以在后面再加一个0，你会发现时间误差依然没啥大的变化
+            }
+        };
+        timer1.start();
+        timer1.join();
     }
 }

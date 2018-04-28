@@ -1,8 +1,8 @@
 package models.thread;
 
 import event.thread.ThreadBeforeTriggerEvent;
-import event.thread.ThreadTriggerEvent;
-import interfaces.thread.TriggerThreadInterface;
+import event.thread.ThreadTriggerWithReturnValueEvent;
+import interfaces.thread.TriggerWithReturnValueInterface;
 
 /**
  * 触发器线程
@@ -15,7 +15,7 @@ import interfaces.thread.TriggerThreadInterface;
  *
  * @param <T> 返回值类型
  */
-public abstract class TriggerThread<T> extends ApplicationThread implements TriggerThreadInterface<T> {
+public abstract class TriggerThread<T> extends ApplicationThread implements TriggerWithReturnValueInterface<T> {
     /**
      * 返回值
      */
@@ -29,7 +29,7 @@ public abstract class TriggerThread<T> extends ApplicationThread implements Trig
         ThreadBeforeTriggerEvent before_trigger_event = new ThreadBeforeTriggerEvent(this);
         this.beforeTrigger(before_trigger_event);
         if (before_trigger_event.getAllowTrigger()) {
-            ThreadTriggerEvent<T> trigger_event = new ThreadTriggerEvent<>(this);
+            ThreadTriggerWithReturnValueEvent<T> trigger_event = new ThreadTriggerWithReturnValueEvent<>(this);
             this.trigger(trigger_event);
             this.return_value = trigger_event.getReturnValue();
         }

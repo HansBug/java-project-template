@@ -291,6 +291,11 @@ public class HashExpireMap<K, V> extends HashMap<K, V> implements ApplicationInt
         return super.containsValue(value);
     }
     
+    /**
+     * 获取值集合
+     *
+     * @return 值集合
+     */
     @Override
     public Collection<V> values() {
         this.removeExpiredKeys();
@@ -308,6 +313,11 @@ public class HashExpireMap<K, V> extends HashMap<K, V> implements ApplicationInt
         return super.size();
     }
     
+    /**
+     * 全部设置
+     *
+     * @param m m
+     */
     @Override
     public void putAll(Map<? extends K, ? extends V> m) {
         this.removeExpiredKeys();
