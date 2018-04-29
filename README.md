@@ -1,5 +1,5 @@
 # java-project-template
-HansBug的java工程模板23333
+HansBug的java工程模板，<del>结构灵感取材于ruby on rails</del>2333
 
 ## 说明
 * 该模板将长期维(填)护(坑)，敬请期待

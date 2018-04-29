@@ -1,7 +1,5 @@
 package interfaces.thread;
 
-import interfaces.application.ApplicationInterface;
-
 /**
  * 提醒轮询线程接口
  */

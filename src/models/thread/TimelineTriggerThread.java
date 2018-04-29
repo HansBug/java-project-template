@@ -1,6 +1,5 @@
 package models.thread;
 
-import event.thread.ThreadBeforeTriggerEvent;
 import event.thread.ThreadExceptionEvent;
 import event.thread.ThreadTriggerEvent;
 import event.thread.ThreadTriggerWithReturnValueEvent;

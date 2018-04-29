@@ -1,6 +1,6 @@
 package models.application;
-        
-        import interfaces.application.ApplicationInterface;
+
+import interfaces.application.ApplicationInterface;
 
 /**
  * 全局模型基类
