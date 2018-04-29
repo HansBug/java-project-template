@@ -105,6 +105,23 @@ public class Timestamp extends HashBasedModel implements Comparable<Timestamp> {
     }
     
     /**
+     * 对象相等性判定
+     *
+     * @param obj 另一个对象
+     * @return 是否相等
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        } else if (obj instanceof Timestamp) {
+            return Timestamp.compare(this, (Timestamp) obj) == 0;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
      * 时间戳哈希值
      *
      * @return 哈希值
