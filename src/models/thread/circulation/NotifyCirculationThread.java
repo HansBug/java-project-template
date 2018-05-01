@@ -1,6 +1,7 @@
-package models.thread;
+package models.thread.circulation;
 
 import interfaces.thread.NotifyCirculationThreadInterface;
+import models.thread.ApplicationThread;
 
 /**
  * 支持题型功能的轮询型线程

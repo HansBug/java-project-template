@@ -1,10 +1,12 @@
-package models.thread;
+package models.thread.circulation;
 
 import event.thread.ThreadExceptionEvent;
 import event.thread.ThreadTriggerEvent;
 import event.thread.ThreadTriggerWithReturnValueEvent;
 import interfaces.thread.TriggerInterface;
 import models.application.structure.TimeBasedObject;
+import models.thread.trigger.DelayUntilThread;
+import models.thread.trigger.TriggerThread;
 import models.time.Timestamp;
 
 import java.util.PriorityQueue;

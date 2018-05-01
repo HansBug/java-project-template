@@ -1,4 +1,4 @@
-package models.thread;
+package models.thread.trigger;
 
 import event.thread.ThreadBeforeTriggerEvent;
 
@@ -54,6 +54,6 @@ public abstract class DelayThread<T> extends TriggerThread<T> {
      */
     @Override
     public void beforeTrigger(ThreadBeforeTriggerEvent e) throws InterruptedException {
-        sleep(wait_time);
+        Thread.sleep(wait_time);
     }
 }

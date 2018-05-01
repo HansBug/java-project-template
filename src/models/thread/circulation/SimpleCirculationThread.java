@@ -1,4 +1,4 @@
-package models.thread;
+package models.thread.circulation;
 
 /**
  * 简单轮询线程

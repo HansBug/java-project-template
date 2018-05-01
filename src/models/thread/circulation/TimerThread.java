@@ -1,10 +1,11 @@
-package models.thread;
+package models.thread.circulation;
 
 import event.thread.ThreadBeforeTriggerEvent;
 import event.thread.ThreadExceptionEvent;
 import event.thread.ThreadTriggerEvent;
 import event.thread.ThreadTriggerWithReturnValueEvent;
 import interfaces.thread.TriggerInterface;
+import models.thread.trigger.TriggerThread;
 import models.time.Timestamp;
 
 /**

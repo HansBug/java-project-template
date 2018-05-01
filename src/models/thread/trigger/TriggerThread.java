@@ -1,8 +1,9 @@
-package models.thread;
+package models.thread.trigger;
 
 import event.thread.ThreadBeforeTriggerEvent;
 import event.thread.ThreadTriggerWithReturnValueEvent;
 import interfaces.thread.TriggerWithReturnValueInterface;
+import models.thread.ApplicationThread;
 
 /**
  * 触发器线程
