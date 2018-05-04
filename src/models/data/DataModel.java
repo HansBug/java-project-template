@@ -1,6 +1,8 @@
-package models.input;
+package models.data;
 
 import interfaces.data.ModelValidator;
+import interfaces.data.PropertyValidator;
+import models.application.ApplicationModel;
 import models.application.TimeBasedModel;
 
 /**
@@ -13,5 +15,6 @@ import models.application.TimeBasedModel;
  * 建议：
  * 1、继承此类来进行输入数据的管理
  */
-public abstract class ApplicationInputModel<T> extends TimeBasedModel implements ModelValidator {
+public abstract class DataModel extends TimeBasedModel implements ModelValidator {
+
 }
