@@ -23,7 +23,7 @@ import java.util.PriorityQueue;
  * 3、由于所有任务均为单独线程，故任务内执行时间较长也不会导致后面的任务触发事件受影响，任务执行完毕后该线程自动销毁
  * <p>
  * 注：
- * 1、该模块精度低于DelayThread和DelayUntilThread（精度误差大约在0-10ms之间）
+ * 1、该模块精度低于DelayThread和DelayUntilThread（精度误差大约在0-10ms之间，不过没有累积误差）
  * 2、该模块适用于大量定时任务排队且精度要求不是很高的情况，可以有效节省资源占用
  * 3、如果为单一且等间隔的任务，推荐使用TimerThread
  */

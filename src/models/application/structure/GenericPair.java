@@ -41,7 +41,7 @@ public class GenericPair<X, Y> extends HashBasedModel {
      *
      * @return 第一个值
      */
-    public X getFirst() {
+    protected X getFirst() {
         return first;
     }
     
@@ -50,7 +50,7 @@ public class GenericPair<X, Y> extends HashBasedModel {
      *
      * @param first 第一个值
      */
-    public void setFirst(X first) {
+    protected void setFirst(X first) {
         this.first = first;
     }
     
@@ -59,7 +59,7 @@ public class GenericPair<X, Y> extends HashBasedModel {
      *
      * @return 第二个值
      */
-    public Y getSecond() {
+    protected Y getSecond() {
         return second;
     }
     
@@ -68,8 +68,17 @@ public class GenericPair<X, Y> extends HashBasedModel {
      *
      * @param second 第二个值
      */
-    public void setSecond(Y second) {
+    protected void setSecond(Y second) {
         this.second = second;
+    }
+    
+    /**
+     * 获取反转对象
+     *
+     * @return 反转对象
+     */
+    protected GenericPair<Y, X> getReversed() {
+        return new GenericPair<>(this.second, this.first);
     }
     
     /**
