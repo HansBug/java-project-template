@@ -1,7 +1,7 @@
 package models.thread.trigger;
 
-import event.thread.ThreadBeforeTriggerEvent;
-import event.thread.ThreadTriggerWithReturnValueEvent;
+import events.thread.ThreadBeforeTriggerEvent;
+import events.thread.ThreadTriggerWithReturnValueEvent;
 import interfaces.thread.TriggerWithReturnValueInterface;
 import models.thread.ApplicationThread;
 

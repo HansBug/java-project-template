@@ -1,6 +1,6 @@
 package models.thread.trigger;
 
-import event.thread.ThreadBeforeTriggerEvent;
+import events.thread.ThreadBeforeTriggerEvent;
 
 /**
  * 延时触发线程

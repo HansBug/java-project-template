@@ -1,7 +1,7 @@
 package models.parse.regex;
 
 import exceptions.parser.ParserException;
-import exceptions.parser.UnknownStringFormat;
+import exceptions.parser.UnknownStringFormatException;
 import interfaces.parser.RegexParserInterface;
 import models.parse.ApplicationParser;
 
@@ -51,10 +51,10 @@ public abstract class SingleRegexParser<T> extends ApplicationParser<T> implemen
             if (matcher.find()) {
                 return this.getParseResult(matcher, str);
             } else {
-                throw new UnknownStringFormat(str);
+                throw new UnknownStringFormatException(str);
             }
         } else {
-            throw new UnknownStringFormat(str);
+            throw new UnknownStringFormatException(str);
         }
     }
 }

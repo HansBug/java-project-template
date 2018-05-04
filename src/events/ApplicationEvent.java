@@ -1,4 +1,4 @@
-package event;
+package events;
 
 /**
  * 事件对象

@@ -1,7 +1,7 @@
 package interfaces.thread;
 
-import event.thread.ThreadBeforeTriggerEvent;
-import event.thread.ThreadTriggerWithReturnValueEvent;
+import events.thread.ThreadBeforeTriggerEvent;
+import events.thread.ThreadTriggerWithReturnValueEvent;
 
 /**
  * 触发器线程接口

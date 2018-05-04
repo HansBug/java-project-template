@@ -1,4 +1,4 @@
-package event.thread;
+package events.thread;
 
 import models.thread.ApplicationThread;
 import models.time.Timestamp;

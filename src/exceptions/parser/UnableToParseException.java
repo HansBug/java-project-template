@@ -10,10 +10,10 @@ public class UnableToParseException extends ParserException {
     /**
      * 构造函数
      *
-     * @param str 原字符串
+     * @param message 异常信息
+     * @param str     原字符串
      */
     public UnableToParseException(String message, String str) {
         super(String.format("Unable to parse \"%s\" : %s", str, message), str);
     }
-    
 }

@@ -1,6 +1,6 @@
 package models.thread.trigger;
 
-import event.thread.ThreadBeforeTriggerEvent;
+import events.thread.ThreadBeforeTriggerEvent;
 import models.thread.ApplicationThread;
 import models.time.Timestamp;
 

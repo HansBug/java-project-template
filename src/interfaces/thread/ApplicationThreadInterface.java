@@ -1,6 +1,6 @@
 package interfaces.thread;
 
-import event.thread.ThreadExceptionEvent;
+import events.thread.ThreadExceptionEvent;
 import interfaces.application.ApplicationInterface;
 
 /**

@@ -1,6 +1,6 @@
-package event.thread;
+package events.thread;
 
-import event.ApplicationEvent;
+import events.ApplicationEvent;
 import models.thread.ApplicationThread;
 
 /**

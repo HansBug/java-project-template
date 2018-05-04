@@ -1,6 +1,6 @@
 package models.thread;
 
-import event.thread.ThreadExceptionEvent;
+import events.thread.ThreadExceptionEvent;
 import interfaces.thread.ApplicationThreadInterface;
 import models.time.Timestamp;
 
