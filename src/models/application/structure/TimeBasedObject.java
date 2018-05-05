@@ -7,7 +7,7 @@ import models.time.Timestamp;
  * 基于时间戳的包裹对象
  * <p>
  * 用途：
- * 1、通过继承该类，快速构建需要带时间戳的对象（例子：HashExpireMap中的TimeBasedKey）
+ * 1、通过继承该类，快速将原有对象包裹上时间戳（例子：HashExpireMap中的TimeBasedKey）
  * 2、支持快速根据时间戳大小进行排序
  *
  * @param <T> 包裹对象类型

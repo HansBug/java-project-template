@@ -1,0 +1,41 @@
+package models.application.structure;
+
+/**
+ * 可比较大小二元对类
+ * <p>
+ * 特性：
+ * 1、在GenericPair类基础上，提供比较大小功能
+ * <p>
+ * 注：
+ * 1、X类型和Y类型必须继承Comparable接口
+ *
+ * @param <X> 类型X（必须继承Comparable接口）
+ * @param <Y> 类型Y（必须继承Comparable接口）
+ */
+public class ComparableGenericPair<X extends Comparable<X>, Y extends Comparable<Y>> extends GenericPair<X, Y> implements Comparable<ComparableGenericPair<X, Y>> {
+    /**
+     * 构造函数
+     *
+     * @param first  第一个值
+     * @param second 第二个值
+     */
+    public ComparableGenericPair(X first, Y second) {
+        super(first, second);
+    }
+    
+    /**
+     * 比较大小
+     *
+     * @param o 另一个同类型可比较二元对
+     * @return 比较结果
+     */
+    @Override
+    public int compareTo(ComparableGenericPair<X, Y> o) {
+        int compare_x = this.getFirst().compareTo(o.getFirst());
+        if (compare_x != 0) {
+            return compare_x;
+        } else {
+            return this.getSecond().compareTo(o.getSecond());
+        }
+    }
+}
