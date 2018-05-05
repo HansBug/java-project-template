@@ -1,5 +1,8 @@
 package models.data.property;
 
+import exceptions.data.property.InvalidPropertyException;
+import exceptions.data.property.RegexpNotMatchPropertyException;
+
 import java.util.regex.Pattern;
 
 /**
@@ -50,25 +53,16 @@ public class RegexPropertyModel<T> extends NotNullPropertyModel<T> {
     }
     
     /**
-     * 正则数据验证
+     * 数据验证
      *
      * @param value 原数据
-     * @return 验证结果
+     * @throws InvalidPropertyException 非法数据异常
      */
     @Override
-    public boolean validate(T value) {
-        if (!super.validate(value)) return false;
-        return Pattern.matches(this.pattern.pattern(), value.toString());
-    }
-    
-    /**
-     * 生成错误信息
-     *
-     * @param data 错误原数据
-     * @return 错误信息
-     */
-    @Override
-    protected String getErrorMessage(T data) {
-        return String.format("Property value \"%s\" not match the regular expression \"%s\".", data.toString(), this.getRegexp());
+    public void validate(T value) throws InvalidPropertyException {
+        super.validate(value);
+        if (!Pattern.matches(this.getRegexp(), value.toString())) {
+            throw new RegexpNotMatchPropertyException(value, this.getRegexp());
+        }
     }
 }

@@ -1,5 +1,6 @@
 package interfaces.data;
 
+import exceptions.data.property.InvalidPropertyException;
 import interfaces.application.ApplicationInterface;
 
 /**
@@ -15,26 +16,10 @@ import interfaces.application.ApplicationInterface;
  */
 public interface PropertyValidator<T> extends ApplicationInterface {
     /**
-     * 数据验证
+     * 数据验证（检测到错误需要抛出异常）
      *
      * @param value 原数据
-     * @return 有效性
+     * @throws InvalidPropertyException 非法参数异常
      */
-    boolean validate(T value);
-    
-    /**
-     * 参数验证器合并
-     *
-     * @param validator 另一个参数验证器
-     * @return 合并结果
-     */
-    default PropertyValidator<T> merge(PropertyValidator<T> validator) {
-        PropertyValidator<T> self = this;
-        return new PropertyValidator<T>() {
-            @Override
-            public boolean validate(T value) {
-                return self.validate(value) && validator.validate(value);
-            }
-        };
-    }
+    void validate(T value) throws InvalidPropertyException;
 }

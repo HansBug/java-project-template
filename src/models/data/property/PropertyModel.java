@@ -1,5 +1,6 @@
 package models.data.property;
 
+import exceptions.data.property.InvalidPropertyException;
 import interfaces.data.PropertyValidator;
 import models.application.ApplicationModel;
 
@@ -24,9 +25,9 @@ public abstract class PropertyModel<T> extends ApplicationModel implements Prope
     protected T data;
     
     /**
-     * 数据验证后对外展示的信息
+     * 非法数据异常类
      */
-    private String message;
+    private InvalidPropertyException property_exception = null;
     
     /**
      * 构造函数
@@ -45,29 +46,39 @@ public abstract class PropertyModel<T> extends ApplicationModel implements Prope
     }
     
     /**
+     * 数据验证（直接使用自身的数据）
+     *
+     * @throws InvalidPropertyException 非法数据异常类
+     */
+    public void validate() throws InvalidPropertyException {
+        this.validate(this.data);
+    }
+    
+    /**
+     * 外部数据合法性判定
+     *
+     * @param data 外部原数据
+     * @return 数据是否合法
+     */
+    public boolean isValid(T data) {
+        try {
+            this.validate(data);
+            return true;
+        } catch (InvalidPropertyException e) {
+            this.property_exception = e;
+            return false;
+        }
+    }
+    
+    /**
      * 合法性判定
      *
      * @return 是否合法
      */
     public boolean isValid() {
-        boolean result = this.validate(this.data);
-        if (result) {
-            this.message = null;
-        } else {
-            this.message = String.format("[%s] %s", this.getClass().getSimpleName(), getErrorMessage(this.data));
-        }
-        return result;
+        return this.isValid(this.data);
     }
     
-    /**
-     * 构建错误信息
-     *
-     * @param data 错误原数据
-     * @return 错误信息
-     */
-    protected String getErrorMessage(T data) {
-        return String.format("Property value \"%s\" is invalid.", data);
-    }
     
     /**
      * 获取数据信息
@@ -88,14 +99,42 @@ public abstract class PropertyModel<T> extends ApplicationModel implements Prope
     }
     
     /**
-     * 获取信息
-     * 1、如果最后一次验证为true，返回null
-     * 2、如果最后一次验证为false，返回错误信息
+     * 获取参数异常类，为最后一次使用isValid函数内抛出的异常，如果数据正常则为null
      *
-     * @return 信息
+     * @return 参数异常类
      */
-    public String getMessage() {
-        return this.message;
+    public InvalidPropertyException getPropertyException() {
+        return this.property_exception;
     }
     
+    /**
+     * 复合数据验证模块生成
+     *
+     * @param data       初始值
+     * @param properties 数据验证模型
+     * @param <T>        数据类型
+     * @return 复合数据模型
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> PropertyModel<T> getModel(T data, PropertyValidator<T>... properties) {
+        return new PropertyModel<T>(data) {
+            @Override
+            public void validate(T value) throws InvalidPropertyException {
+                for (PropertyValidator<T> validator : properties) {
+                    if (validator != null) validator.validate(value);
+                }
+            }
+        };
+    }
+    
+    /**
+     * 复合数据验证模块生成（初始值null）
+     *
+     * @param properties 数据验证模型
+     * @param <T>        数据类型
+     * @return 复合数据模型
+     */
+    public static <T> PropertyModel<T> getModel(PropertyValidator<T>... properties) {
+        return getModel(null, properties);
+    }
 }

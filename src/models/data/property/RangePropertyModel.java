@@ -1,5 +1,8 @@
 package models.data.property;
 
+import exceptions.data.property.InvalidPropertyException;
+import exceptions.data.property.OutOfRangePropertyException;
+
 /**
  * 范围判定验证器
  * <p>
@@ -83,24 +86,24 @@ public class RangePropertyModel<T extends Comparable<T>> extends NotNullProperty
     /**
      * 下界验证（下界为null视为无下界）
      *
-     * @param data 原数据
+     * @param value 原数据
      * @return 验证结果
      */
-    private boolean validateLowerBound(T data) {
+    private boolean validateLowerBound(T value) {
         if (this.lower_bound == null) return true;
-        int compare = this.lower_bound.compareTo(data);
+        int compare = this.lower_bound.compareTo(value);
         return (compare < 0) || ((compare == 0) && (this.include_lower_bound));
     }
     
     /**
      * 上界验证（上界为null视为无上界）
      *
-     * @param data 原数据
+     * @param value 原数据
      * @return 验证结果
      */
-    private boolean validateUpperBound(T data) {
+    private boolean validateUpperBound(T value) {
         if (this.upper_bound == null) return true;
-        int compare = this.upper_bound.compareTo(data);
+        int compare = this.upper_bound.compareTo(value);
         return (compare > 0) || ((compare == 0) && (this.include_upper_bound));
     }
     
@@ -108,39 +111,22 @@ public class RangePropertyModel<T extends Comparable<T>> extends NotNullProperty
      * 数据验证
      *
      * @param value 原数据
-     * @return 验证结果
+     * @throws InvalidPropertyException 非法数据异常
      */
     @Override
-    public boolean validate(T value) {
-        if (!super.validate(value)) return false;
-        return this.validateLowerBound(value) && this.validateUpperBound(value);
-    }
-    
-    /**
-     * 生成错误信息
-     *
-     * @param data 错误原数据
-     * @return 错误信息
-     */
-    @Override
-    protected String getErrorMessage(T data) {
-        if (data == null) {
-            return "Property value is null";
-        } else {
-            if (!this.validateLowerBound(data)) {
-                if (this.include_lower_bound) {
-                    return String.format("Property value \"%s\" should be no less than \"%s\".", data, this.lower_bound);
-                } else {
-                    return String.format("Property value \"%s\" should be more than \"%s\".", data, this.lower_bound);
-                }
-            } else if (!this.validateUpperBound(data)) {
-                if (this.include_upper_bound) {
-                    return String.format("Property value \"%s\" should be no more than \"%s\".", data, this.upper_bound);
-                } else {
-                    return String.format("Property value \"%s\" should be less than \"%s\".", data, this.upper_bound);
-                }
+    public void validate(T value) throws InvalidPropertyException {
+        super.validate(value);
+        if (!this.validateLowerBound(value)) {
+            if (this.include_lower_bound) {
+                throw new OutOfRangePropertyException(value, String.format("Property value \"%s\" should be no less than \"%s\".", value, this.lower_bound));
             } else {
-                return String.format("Property value \"%s\" is not in range from %s to %s.", data, this.lower_bound, this.upper_bound);
+                throw new OutOfRangePropertyException(value, String.format("Property value \"%s\" should be more than \"%s\".", value, this.lower_bound));
+            }
+        } else if (!this.validateUpperBound(value)) {
+            if (this.include_upper_bound) {
+                throw new OutOfRangePropertyException(value, String.format("Property value \"%s\" should be no more than \"%s\".", value, this.upper_bound));
+            } else {
+                throw new OutOfRangePropertyException(value, String.format("Property value \"%s\" should be less than \"%s\".", value, this.upper_bound));
             }
         }
     }

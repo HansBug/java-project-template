@@ -1,5 +1,8 @@
 package models.data.property;
 
+import exceptions.data.property.InvalidPropertyException;
+import exceptions.data.property.NullPropertyException;
+
 /**
  * 非null数据验证类
  * <p>
@@ -28,21 +31,11 @@ public class NotNullPropertyModel<T> extends PropertyModel<T> {
      * 数据验证
      *
      * @param value 原数据
-     * @return 验证结果
+     * @throws InvalidPropertyException 非法数据异常
      */
     @Override
-    public boolean validate(T value) {
-        return value != null;
-    }
-    
-    /**
-     * 生成错误信息
-     *
-     * @param data 错误原数据
-     * @return 错误信息
-     */
-    @Override
-    protected String getErrorMessage(T data) {
-        return "Property value is null.";
+    @SuppressWarnings("all")
+    public void validate(T value) throws InvalidPropertyException {
+        if (value == null) throw new NullPropertyException(value);
     }
 }
