@@ -1,4 +1,4 @@
-package interfaces.data;
+package interfaces.data.validator;
 
 import exceptions.data.property.InvalidPropertyException;
 import interfaces.application.ApplicationInterface;

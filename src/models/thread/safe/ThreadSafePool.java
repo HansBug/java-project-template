@@ -1,6 +1,6 @@
 package models.thread.safe;
 
-import interfaces.application.Translator;
+import interfaces.data.translator.Translator;
 import models.application.ApplicationModel;
 
 import java.util.HashMap;

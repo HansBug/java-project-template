@@ -1,7 +1,7 @@
 package models.data.property;
 
 import exceptions.data.property.InvalidPropertyException;
-import interfaces.data.PropertyValidator;
+import interfaces.data.validator.PropertyValidator;
 import models.application.ApplicationModel;
 
 /**
@@ -10,6 +10,7 @@ import models.application.ApplicationModel;
  * 用途：
  * 1、读写数据字段
  * 2、提供自定义数据验证功能
+ * 3、支持多个属性验证接口合并为一个数据验证模块
  * <p>
  * 建议：
  * 1、可以直接实例化抽象类实现自定义数据验证
@@ -121,7 +122,7 @@ public abstract class PropertyModel<T> extends ApplicationModel implements Prope
             @Override
             public void validate(T value) throws InvalidPropertyException {
                 for (PropertyValidator<T> validator : properties) {
-                    if (validator != null) validator.validate(value);
+                    validator.validate(value);
                 }
             }
         };

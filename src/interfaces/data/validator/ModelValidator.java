@@ -1,5 +1,6 @@
-package interfaces.data;
+package interfaces.data.validator;
 
+import exceptions.data.property.InvalidPropertyException;
 import interfaces.application.ApplicationInterface;
 
 import java.util.List;
@@ -14,20 +15,20 @@ public interface ModelValidator extends ApplicationInterface {
     /**
      * 数据验证
      *
-     * @return 验证结果
-     * @throws Throwable 异常抛出
+     * @throws InvalidPropertyException 属性数据异常
      */
-    boolean validate() throws Throwable;
+    void validate() throws InvalidPropertyException;
     
     /**
      * 安全型验证（无异常抛出，只返回true/false）
      *
      * @return 验证结果
      */
-    default boolean validateSafely() {
+    default boolean isValid() {
         try {
-            return this.validate();
-        } catch (Throwable e) {
+            this.validate();
+            return true;
+        } catch (InvalidPropertyException e) {
             return false;
         }
     }

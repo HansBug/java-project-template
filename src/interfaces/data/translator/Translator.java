@@ -1,4 +1,6 @@
-package interfaces.application;
+package interfaces.data.translator;
+
+import interfaces.application.ApplicationInterface;
 
 /**
  * 对象转化接口
