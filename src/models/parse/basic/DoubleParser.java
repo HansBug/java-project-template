@@ -13,6 +13,10 @@ public class DoubleParser extends BasicDataTypeParser<Double> {
      */
     @Override
     public Double getParseResult(String str) throws Throwable {
+        /**
+         * @effects:
+         *          \result will be Double parse result of str;
+         */
         return Double.parseDouble(str);
     }
 }

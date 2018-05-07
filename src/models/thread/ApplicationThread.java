@@ -19,6 +19,14 @@ public abstract class ApplicationThread extends Thread implements ApplicationThr
      */
     @Override
     public void run() {
+        /**
+         * @effects:
+         *          normal behavior:
+         *          \this.execute() will be executed;
+         *
+         *          exceptional behavior(Throwable):
+         *          \this.exceptionCaught() will be executed;
+         */
         try {
             this.execute();
         } catch (Throwable e) {
@@ -40,9 +48,13 @@ public abstract class ApplicationThread extends Thread implements ApplicationThr
      * @throws InterruptedException 中断异常
      */
     public static void sleepUntil(Timestamp timestamp) throws InterruptedException {
+        /**
+         * @effects:
+         *          wait until the timestamp arrive;
+         */
         long wait_time = timestamp.getTimestamp() - System.currentTimeMillis() - SLEEP_UNTIL_TIME_LEFT;
         if (wait_time < 0) wait_time = 0;
         sleep(wait_time);
-        while (System.currentTimeMillis() < timestamp.getTimestamp()) sleep(0, 1);
+        while (System.currentTimeMillis() < timestamp.getTimestamp()) sleep(0, 100);
     }
 }

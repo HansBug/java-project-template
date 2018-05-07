@@ -27,6 +27,13 @@ public abstract class TriggerThread<T> extends ApplicationThread implements Trig
      */
     @Override
     public void execute() throws Throwable {
+        /**
+         * @modifies:
+         *          \this.return_value;
+         * @effects:
+         *          firstly execute \this.beforeTrigger();
+         *          trigger is allowed in \this.beforeTrigger() ==> execute \this.trigger() & \this.return_value set to the return value;
+         */
         ThreadBeforeTriggerEvent before_trigger_event = new ThreadBeforeTriggerEvent(this);
         this.beforeTrigger(before_trigger_event);
         if (before_trigger_event.getAllowTrigger()) {
@@ -42,6 +49,10 @@ public abstract class TriggerThread<T> extends ApplicationThread implements Trig
      * @return 返回值
      */
     public T getReturnValue() {
+        /**
+         * @effects:
+         *          \result = \this.return_value;
+         */
         return this.return_value;
     }
 }

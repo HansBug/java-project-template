@@ -40,6 +40,12 @@ public class FileAppendWriter extends ApplicationModel {
      * @param filename 写入目标
      */
     public FileAppendWriter(String filename) {
+        /**
+         * @modifies:
+         *          \this.filename;
+         * @effects:
+         *          \this.filename = filename;
+         */
         this(filename, false);
     }
     
@@ -50,6 +56,13 @@ public class FileAppendWriter extends ApplicationModel {
      * @param append   是否为追加模式（否则清空文件原内容）
      */
     public FileAppendWriter(String filename, boolean append) {
+        /**
+         * @modifies:
+         *          \this.filename;
+         * @effects:
+         *          \this.filename = filename;
+         *          (!append) ==> \this.clear();
+         */
         this.filename = filename;
         if (!append) this.clear();
     }
@@ -61,6 +74,10 @@ public class FileAppendWriter extends ApplicationModel {
      * @return 文件名
      */
     public String getFilename() {
+        /**
+         * @effects:
+         *          \result = \this.filename;
+         */
         return filename;
     }
     
@@ -68,6 +85,14 @@ public class FileAppendWriter extends ApplicationModel {
      * 清空暂存区和目标文件
      */
     public synchronized void clear() {
+        /**
+         * @modifies:
+         *          \this.saved_lines;
+         *          the output file defined;
+         * @effects:
+         *          the output file defined become empty;
+         *          \this.saved_lines become empty;
+         */
         this.saved_lines.clear();
         FileWriter writer = null;
         try {
@@ -88,6 +113,12 @@ public class FileAppendWriter extends ApplicationModel {
      * @param line 新行
      */
     private synchronized void addToQueue(String line) {
+        /**
+         * @modifies:
+         *          \this.saved_lines;
+         * @effects:
+         *          String line added into \this.saved_line;
+         */
         this.saved_lines.add(line);
     }
     
@@ -95,6 +126,14 @@ public class FileAppendWriter extends ApplicationModel {
      * 导出队列信息
      */
     private synchronized void dumpQueue() {
+        /**
+         * @modifies:
+         *          \this.saved_lines;
+         *          the output file defined;
+         * @modifies:
+         *          the lines in \this.saved_lines appended into the output file defined;
+         *          the lines dumped successfully will be remove from \this.saved_lines;
+         */
         FileWriter fw = null;
         ArrayList<String> new_queue = new ArrayList<>(this.saved_lines);
         try {
@@ -123,6 +162,15 @@ public class FileAppendWriter extends ApplicationModel {
      * @param line 行信息
      */
     public synchronized void append(String line) {
+        /**
+         * @modifies:
+         *          \this.saved_lines;
+         *          this output file defined;
+         * @effects:
+         *          String line added into the tail of \this.saved_lines;
+         *          the lines in \this.saved_lines appended into the output file defined;
+         *          the lines dumped successfully will be remove from \this.saved_lines;
+         */
         this.addToQueue(line);
         this.dumpQueue();
     }

@@ -20,6 +20,10 @@ public abstract class SimpleCirculationThread extends NotifyCirculationThread {
      */
     @Override
     public boolean permitCirculation() {
+        /**
+         * @effects:
+         *          \result = true;
+         */
         return true;
     }
     
@@ -30,6 +34,10 @@ public abstract class SimpleCirculationThread extends NotifyCirculationThread {
      */
     @Override
     public boolean permitContinue() {
+        /**
+         * @effects:
+         *          \result = !\this.waiting_for_quit;
+         */
         return !waiting_for_quit;
     }
     
@@ -37,6 +45,12 @@ public abstract class SimpleCirculationThread extends NotifyCirculationThread {
      * 发出退出指令
      */
     public void exitGracefully() {
+        /**
+         * @modifies:
+         *          \this.waiting_for_quit;
+         * @effects:
+         *          \this.waiting_for_quit = true;
+         */
         this.waiting_for_quit = true;
     }
 }

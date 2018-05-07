@@ -49,6 +49,16 @@ public class TimelineTriggerThread extends SimpleCirculationThread {
          * @param timestamp 时间戳
          */
         public TimeBasedTrigger(TriggerInterface trigger, Timestamp timestamp) {
+            /**
+             * @modifies:
+             *          \this.object;
+             *          \this.timestamp;
+             *          \this.thread;
+             * @effects:
+             *          \this.object = trigger;
+             *          \this.timestamp = timestamp;
+             *          \this.thread will be set to the DelayUntilThread of the task and the trigger timestamp;
+             */
             super(trigger);
             setTimestamp(timestamp);
             this.thread = new DelayUntilThread(timestamp) {
@@ -68,6 +78,10 @@ public class TimelineTriggerThread extends SimpleCirculationThread {
          * 启动内部线程
          */
         public void start() {
+            /**
+             * @effects:
+             *          \this.thread will be started;
+             */
             this.thread.start();
         }
     }
@@ -86,6 +100,12 @@ public class TimelineTriggerThread extends SimpleCirculationThread {
      * 构造函数
      */
     public TimelineTriggerThread() {
+        /**
+         * @modifies:
+         *          \this.queue;
+         * @effects:
+         *          \this.queue will be initialized to a new PriorityQueue;
+         */
         this.queue = new PriorityQueue<>();
     }
     
@@ -96,6 +116,13 @@ public class TimelineTriggerThread extends SimpleCirculationThread {
      * @param trigger   触发器
      */
     public void add(Timestamp timestamp, TriggerInterface trigger) {
+        /**
+         * @modifies:
+         *          \this.queue;
+         * @effects:
+         *          add the new trigger task into \this.queue;
+         *          \this.lock_object will be notified to all;
+         */
         synchronized (this.queue) {
             this.queue.add(new TimeBasedTrigger(trigger, timestamp));
             synchronized (this.lock_object) {
@@ -111,6 +138,14 @@ public class TimelineTriggerThread extends SimpleCirculationThread {
      * @param trigger    触发器
      */
     public void add(long time_after, TriggerInterface trigger) {
+        /**
+         * @modifies:
+         *          \this.queue;
+         * @effects:
+         *          calculate a new time based on current time;
+         *          add the new trigger task into \this.queue;
+         *          \this.lock_object will be notified to all;
+         */
         synchronized (this.queue) {
             Timestamp timestamp = new Timestamp().getOffseted(time_after);
             this.add(timestamp, trigger);
@@ -121,6 +156,13 @@ public class TimelineTriggerThread extends SimpleCirculationThread {
      * 清空触发器
      */
     public void clear() {
+        /**
+         * @modifies:
+         *          \this.queue;
+         * @effects:
+         *          \this.queue will be cleared;
+         *          \this.lock_object will be notified to all;
+         */
         synchronized (this.queue) {
             this.queue.clear();
             synchronized (this.lock_object) {
@@ -134,7 +176,10 @@ public class TimelineTriggerThread extends SimpleCirculationThread {
      */
     @Override
     public void afterCirculation() {
-    
+        /**
+         * @effects:
+         *          nothing to do after the circulation;
+         */
     }
     
     /**
@@ -142,7 +187,10 @@ public class TimelineTriggerThread extends SimpleCirculationThread {
      */
     @Override
     public void beforeCirculation() {
-    
+        /**
+         * @effects:
+         *          nothing to do before the circulation;
+         */
     }
     
     /**
@@ -152,7 +200,10 @@ public class TimelineTriggerThread extends SimpleCirculationThread {
      */
     @Override
     public void exceptionCaught(ThreadExceptionEvent e) {
-    
+        /**
+         * @effects:
+         *          nothing to do when exception caught;
+         */
     }
     
     /**
@@ -168,6 +219,14 @@ public class TimelineTriggerThread extends SimpleCirculationThread {
      */
     @Override
     public void circulation() throws Throwable {
+        /**
+         * @modifies:
+         *          \this.queue;
+         * @effects:
+         *          calculate the valid offset time;
+         *          (\this.queue is empty) ==> \this.lock_object start wait;
+         *          put all the trigger task that will be trigger in this round into the waiting mode and put them out of \this.queue;
+         */
         Timestamp timestamp = new Timestamp().getOffseted(PRE_OFFSET_TIME);
         if (this.queue.isEmpty()) {
             synchronized (this.lock_object) {
@@ -191,6 +250,11 @@ public class TimelineTriggerThread extends SimpleCirculationThread {
      */
     @Override
     public void exitGracefully() {
+        /**
+         * @effects:
+         *          \super.exitGracefully will be executed;
+         *          Then, the lock will be notified to all;
+         */
         super.exitGracefully();
         synchronized (this.lock_object) {
             this.lock_object.notifyAll();

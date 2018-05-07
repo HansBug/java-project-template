@@ -1,23 +1,23 @@
-package exceptions.data.property;
+package exceptions.data.data;
 
 import exceptions.application.ApplicationException;
 
 /**
- * 非法参数异常
+ * 非法数据异常
  */
-public class InvalidPropertyException extends ApplicationException {
+public abstract class InvalidDataException extends ApplicationException {
     /**
-     * 异常原数据
+     * 非法的数据
      */
-    protected final Object data;
+    private final Object data;
     
     /**
      * 构造函数
      *
-     * @param data    异常原数据
+     * @param data    非法原数据
      * @param message 异常信息
      */
-    public InvalidPropertyException(Object data, String message) {
+    public InvalidDataException(Object data, String message) {
         /**
          * @modifies:
          *          \this.data;
@@ -31,16 +31,15 @@ public class InvalidPropertyException extends ApplicationException {
     }
     
     /**
-     * 获取异常原数据
+     * 获取非法原数据
      *
-     * @return 原数据
+     * @return 非法原数据
      */
     public Object getData() {
         /**
          * @effects:
-         *          \result = \this.data
+         *          \result = \this.data;
          */
         return data;
     }
-    
 }

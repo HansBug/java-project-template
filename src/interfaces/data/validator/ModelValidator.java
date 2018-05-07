@@ -1,9 +1,7 @@
 package interfaces.data.validator;
 
-import exceptions.data.property.InvalidPropertyException;
+import exceptions.data.data.InvalidDataException;
 import interfaces.application.ApplicationInterface;
-
-import java.util.List;
 
 /**
  * 模型数据验证接口
@@ -15,21 +13,9 @@ public interface ModelValidator extends ApplicationInterface {
     /**
      * 数据验证
      *
-     * @throws InvalidPropertyException 属性数据异常
+     * @throws InvalidDataException 属性数据异常
      */
-    void validate() throws InvalidPropertyException;
+    void validate() throws InvalidDataException;
     
-    /**
-     * 安全型验证（无异常抛出，只返回true/false）
-     *
-     * @return 验证结果
-     */
-    default boolean isValid() {
-        try {
-            this.validate();
-            return true;
-        } catch (InvalidPropertyException e) {
-            return false;
-        }
-    }
+    
 }

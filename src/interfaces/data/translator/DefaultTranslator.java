@@ -14,6 +14,10 @@ public interface DefaultTranslator<X> extends Translator<X, X> {
      */
     @Override
     default X translate(X origin) {
+        /**
+         * @effects:
+         *          \result = origin;
+         */
         return origin;
     }
 }

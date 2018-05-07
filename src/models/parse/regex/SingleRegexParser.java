@@ -22,10 +22,16 @@ public abstract class SingleRegexParser<T> extends ApplicationParser<T> implemen
     /**
      * 构造函数
      *
-     * @param regex_expression 正则表达式
+     * @param regexp 正则表达式
      */
-    public SingleRegexParser(String regex_expression) {
-        this.pattern = Pattern.compile(regex_expression);
+    public SingleRegexParser(String regexp) {
+        /**
+         * @modifies:
+         *          \this.pattern;
+         * @effects:
+         *          \this.pattern will be the Regular Expression Pattern Object of regexp;
+         */
+        this.pattern = Pattern.compile(regexp);
     }
     
     /**
@@ -33,7 +39,11 @@ public abstract class SingleRegexParser<T> extends ApplicationParser<T> implemen
      *
      * @return 正则表达式
      */
-    public String getRegularExpression() {
+    protected String getRegularExpression() {
+        /**
+         * @effects:
+         *          \result will be set to the string format regular expression of the \this.pattern;
+         */
         return this.pattern.pattern();
     }
     
@@ -46,6 +56,13 @@ public abstract class SingleRegexParser<T> extends ApplicationParser<T> implemen
      */
     @Override
     public T parse(String str) throws ParserException {
+        /**
+         * @effects:
+         *          normal behavior:
+         *              \result = \this.getParseResult;
+         *          exceptional behavior(UnknownStringFormatException):
+         *              regular expression not match the given str;
+         */
         if (Pattern.matches(this.getRegularExpression(), str)) {
             Matcher matcher = this.pattern.matcher(str);
             if (matcher.find()) {

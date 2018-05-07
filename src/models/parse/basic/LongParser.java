@@ -13,6 +13,10 @@ public class LongParser extends BasicDataTypeParser<Long> {
      */
     @Override
     public Long getParseResult(String str) throws Throwable {
+        /**
+         * @effects:
+         *          \result will be Long parse result of str;
+         */
         return Long.parseLong(str);
     }
 }

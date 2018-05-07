@@ -13,6 +13,10 @@ public class IntegerParser extends BasicDataTypeParser<Integer> {
      */
     @Override
     public Integer getParseResult(String str) throws Throwable {
+        /**
+         * @effects:
+         *          \result will be Integer parse result of str;
+         */
         return Integer.parseInt(str);
     }
 }

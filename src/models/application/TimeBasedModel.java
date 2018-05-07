@@ -23,6 +23,10 @@ public class TimeBasedModel extends ApplicationModel implements TimeBasedInterfa
      * 构造函数
      */
     public TimeBasedModel() {
+        /**
+         * @modifies:
+         *          \this.timestamp;
+         */
         this.timestamp = new Timestamp();
     }
     
@@ -32,6 +36,9 @@ public class TimeBasedModel extends ApplicationModel implements TimeBasedInterfa
      * @return 时间戳
      */
     public Timestamp getTimestamp() {
+        /**
+         * @effects: \result = \this.timestamp;
+         */
         return timestamp;
     }
     
@@ -41,6 +48,12 @@ public class TimeBasedModel extends ApplicationModel implements TimeBasedInterfa
      * @param timestamp 时间戳
      */
     protected void setTimestamp(Timestamp timestamp) {
+        /**
+         * @requires:
+         *          timestamp != null;
+         * @modifies:
+         *          \this.timestamp;
+         */
         this.timestamp = timestamp;
     }
 }

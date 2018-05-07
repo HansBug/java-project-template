@@ -43,6 +43,20 @@ public class RangePropertyModel<T extends Comparable<T>> extends NotNullProperty
      * @param data                初始值
      */
     public RangePropertyModel(T lower_bound, boolean include_lower_bound, T upper_bound, boolean include_upper_bound, T data) {
+        /**
+         * @modifies:
+         *          \this.lower_bound;
+         *          \this.include_lower_bound;
+         *          \this.upper_bound;
+         *          \this.include_upper_bound;
+         *          \this.data;
+         * @effects:
+         *          \this.lower_bound = lower_bound;
+         *          \this.include_lower_bound = include_lower_bound;
+         *          \this.upper_bound = upper_bound;
+         *          \this.include_upper_bound = include_upper_bound;
+         *          \this.data = data;
+         */
         this.lower_bound = lower_bound;
         this.include_lower_bound = include_lower_bound;
         this.upper_bound = upper_bound;
@@ -59,6 +73,20 @@ public class RangePropertyModel<T extends Comparable<T>> extends NotNullProperty
      * @param include_upper_bound 是否包含上界
      */
     public RangePropertyModel(T lower_bound, boolean include_lower_bound, T upper_bound, boolean include_upper_bound) {
+        /**
+         * @modifies:
+         *          \this.lower_bound;
+         *          \this.include_lower_bound;
+         *          \this.upper_bound;
+         *          \this.include_upper_bound;
+         *          \this.data;
+         * @effects:
+         *          \this.lower_bound = lower_bound;
+         *          \this.include_lower_bound = include_lower_bound;
+         *          \this.upper_bound = upper_bound;
+         *          \this.include_upper_bound = include_upper_bound;
+         *          \this.data = null;
+         */
         this(lower_bound, include_lower_bound, upper_bound, include_upper_bound, null);
     }
     
@@ -70,6 +98,20 @@ public class RangePropertyModel<T extends Comparable<T>> extends NotNullProperty
      * @param data        初始值
      */
     public RangePropertyModel(T lower_bound, T upper_bound, T data) {
+        /**
+         * @modifies:
+         *          \this.lower_bound;
+         *          \this.include_lower_bound;
+         *          \this.upper_bound;
+         *          \this.include_upper_bound;
+         *          \this.data;
+         * @effects:
+         *          \this.lower_bound = lower_bound;
+         *          \this.include_lower_bound = true;
+         *          \this.upper_bound = upper_bound;
+         *          \this.include_upper_bound = true;
+         *          \this.data = data;
+         */
         this(lower_bound, true, upper_bound, true, data);
     }
     
@@ -80,6 +122,20 @@ public class RangePropertyModel<T extends Comparable<T>> extends NotNullProperty
      * @param upper_bound 上界
      */
     public RangePropertyModel(T lower_bound, T upper_bound) {
+        /**
+         * @modifies:
+         *          \this.lower_bound;
+         *          \this.include_lower_bound;
+         *          \this.upper_bound;
+         *          \this.include_upper_bound;
+         *          \this.data;
+         * @effects:
+         *          \this.lower_bound = lower_bound;
+         *          \this.include_lower_bound = true;
+         *          \this.upper_bound = upper_bound;
+         *          \this.include_upper_bound = true;
+         *          \this.data = null;
+         */
         this(lower_bound, upper_bound, null);
     }
     
@@ -90,6 +146,13 @@ public class RangePropertyModel<T extends Comparable<T>> extends NotNullProperty
      * @return 验证结果
      */
     private boolean validateLowerBound(T value) {
+        /**
+         * @effects:
+         *          (\ this.lower_bound = = null) ==> \result = true;
+         *          \result = ((\this.lower_bound != null) && ((\this.lower_bound < value) || ((\this.lower_bound == value) && (\this.include_lower_bound))));
+         * @notice:
+         *          < and > and == operation is realized by Comparable interface.
+         */
         if (this.lower_bound == null) return true;
         int compare = this.lower_bound.compareTo(value);
         return (compare < 0) || ((compare == 0) && (this.include_lower_bound));
@@ -102,6 +165,13 @@ public class RangePropertyModel<T extends Comparable<T>> extends NotNullProperty
      * @return 验证结果
      */
     private boolean validateUpperBound(T value) {
+        /**
+         * @effects:
+         *          (\ this.upper_bound = = null) ==> \result = true;
+         *          \result = ((\this.upper_bound != null) && ((\this.upper_bound > value) || ((\this.upper_bound == value) && (\this.include_upper_bound))));
+         * @notice:
+         *          < and > and == operation is realized by Comparable interface.
+         */
         if (this.upper_bound == null) return true;
         int compare = this.upper_bound.compareTo(value);
         return (compare > 0) || ((compare == 0) && (this.include_upper_bound));
@@ -115,6 +185,14 @@ public class RangePropertyModel<T extends Comparable<T>> extends NotNullProperty
      */
     @Override
     public void validate(T value) throws InvalidPropertyException {
+        /**
+         * @effects:
+         *          normal_behaviour:
+         *          validated by super.validate(T data)
+         *          value checked by the range define by private properties whether in the proper range
+         *
+         *          exceptional behaviour(OutOfRangePropertyException): not in proper range
+         */
         super.validate(value);
         if (!this.validateLowerBound(value)) {
             if (this.include_lower_bound) {

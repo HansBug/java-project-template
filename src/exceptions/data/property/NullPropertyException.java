@@ -10,6 +10,11 @@ public class NullPropertyException extends InvalidPropertyException {
      * @param data 异常原数据
      */
     public NullPropertyException(Object data) {
+        /**
+         * @effects:
+         *          message will be set using the constructor of the parent class;
+         *          \this.data = data;
+         */
         super(data, "Property is null.");
     }
 }

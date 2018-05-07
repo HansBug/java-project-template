@@ -32,6 +32,11 @@ public class GenericPair<X, Y> extends HashBasedModel {
      * @param second 第二个值
      */
     public GenericPair(X first, Y second) {
+        /**
+         * @modifies:
+         *          \this.first;
+         *          \this.second;
+         */
         this.first = first;
         this.second = second;
     }
@@ -42,6 +47,10 @@ public class GenericPair<X, Y> extends HashBasedModel {
      * @return 第一个值
      */
     protected X getFirst() {
+        /**
+         * @effects:
+         *          \result = \this.first;
+         */
         return first;
     }
     
@@ -51,6 +60,10 @@ public class GenericPair<X, Y> extends HashBasedModel {
      * @param first 第一个值
      */
     protected void setFirst(X first) {
+        /**
+         * @modifies:
+         *          \this.first;
+         */
         this.first = first;
     }
     
@@ -60,6 +73,10 @@ public class GenericPair<X, Y> extends HashBasedModel {
      * @return 第二个值
      */
     protected Y getSecond() {
+        /**
+         * @effects:
+         *          \result = \this.second;
+         */
         return second;
     }
     
@@ -69,6 +86,10 @@ public class GenericPair<X, Y> extends HashBasedModel {
      * @param second 第二个值
      */
     protected void setSecond(Y second) {
+        /**
+         * @modifies:
+         *          \this.second;
+         */
         this.second = second;
     }
     
@@ -78,6 +99,11 @@ public class GenericPair<X, Y> extends HashBasedModel {
      * @return 反转对象
      */
     protected GenericPair<Y, X> getReversed() {
+        /**
+         * @effects:
+         *          \result.second = \this.first
+         *          \result.first = \this.second
+         */
         return new GenericPair<>(this.second, this.first);
     }
     
@@ -88,6 +114,10 @@ public class GenericPair<X, Y> extends HashBasedModel {
      */
     @Override
     public int hashCode() {
+        /**
+         * @effects:
+         *          \result = Arrays.hashCode
+         */
         return Arrays.hashCode(new Object[]{this.first, this.second});
     }
 }

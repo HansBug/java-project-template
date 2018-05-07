@@ -17,6 +17,12 @@ public class NoLimitPropertyModel<T> extends PropertyModel<T> {
      * @param data 初始值
      */
     public NoLimitPropertyModel(T data) {
+        /**
+         * @modifies:
+         *          \this.data;
+         * @effects:
+         *          \this.data = data;
+         */
         super(data);
     }
     
@@ -24,6 +30,12 @@ public class NoLimitPropertyModel<T> extends PropertyModel<T> {
      * 构造函数（初始值null）
      */
     public NoLimitPropertyModel() {
+        /**
+         * @modifies:
+         *          \this.data;
+         * @effects:
+         *          \this.data = null;
+         */
         super();
     }
     

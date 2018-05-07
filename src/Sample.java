@@ -27,11 +27,11 @@ public abstract class Sample {
      * @throws Throwable 异常
      */
     public static void main(String[] args) throws Throwable {
-//        testTimestamp();
-//        testWriters();
-//        testCirculationThread();
-//        testDelayedThread();
-//        testHashExpireMap();
+        testTimestamp();
+        testWriters();
+        testCirculationThread();
+        testDelayedThread();
+        testHashExpireMap();
         testTimelineTriggerThread();
         testTimerThread();
     }

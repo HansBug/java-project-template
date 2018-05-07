@@ -42,6 +42,12 @@ public abstract class TimerThread extends SimpleCirculationThread implements Tri
      * @param time_span 时间间隔
      */
     public TimerThread(long time_span) {
+        /**
+         * @modifies:
+         *          \this.time_span;
+         * @effects:
+         *          \this.time_span = time_span;
+         */
         this.time_span = time_span;
     }
     
@@ -50,6 +56,13 @@ public abstract class TimerThread extends SimpleCirculationThread implements Tri
      */
     @Override
     public void beforeCirculation() {
+        /**
+         * @modifies:
+         *          \this.timestamp;
+         * @effects:
+         *          \this.timestamp will be set to the current time;
+         *          trigger for one time using method callTrigger();
+         */
         timestamp = new Timestamp();
         callTrigger(timestamp);
     }
@@ -59,7 +72,10 @@ public abstract class TimerThread extends SimpleCirculationThread implements Tri
      */
     @Override
     public void afterCirculation() {
-    
+        /**
+         * @effects:
+         *          nothing to do when circulation ended;
+         */
     }
     
     /**
@@ -69,6 +85,13 @@ public abstract class TimerThread extends SimpleCirculationThread implements Tri
      */
     @Override
     public void circulation() throws InterruptedException {
+        /**
+         * @modifies:
+         *          \this.timestamp;
+         * @effects:
+         *          \this.timestamp = \this.timestamp.getOffseted(time_span)
+         *          sleep until the new timestamp and call the trigger;
+         */
         timestamp = timestamp.getOffseted(time_span);
         sleepUntil(timestamp);
         callTrigger(timestamp);
@@ -79,21 +102,35 @@ public abstract class TimerThread extends SimpleCirculationThread implements Tri
      *
      * @param timestamp 时间戳
      */
-    private void callTrigger(Timestamp timestamp) {
+    protected void callTrigger(Timestamp timestamp) {
+        /**
+         * @effects:
+         *          open a new empty TriggerThread to trigger the trigger interface;
+         */
         (new TriggerThread() {
             @Override
             public void beforeTrigger(ThreadBeforeTriggerEvent e) {
-            
+                /**
+                 * @effects:
+                 *          nothing to do before trigger;
+                 */
             }
             
             @Override
             public void trigger(ThreadTriggerWithReturnValueEvent e) {
+                /**
+                 * @effects:
+                 *          call the method trigger of the self (\this of the outer class);
+                 */
                 self.trigger(new ThreadTriggerEvent(self, timestamp));
             }
             
             @Override
             public void exceptionCaught(ThreadExceptionEvent e) {
-            
+                /**
+                 * @effects:
+                 *          nothing to do when exception throw out of the trigger function;
+                 */
             }
         }).start();
     }
@@ -105,6 +142,10 @@ public abstract class TimerThread extends SimpleCirculationThread implements Tri
      */
     @Override
     public void exceptionCaught(ThreadExceptionEvent e) {
+        /**
+         * @effects:
+         *          print the stack trace of the exception to the stderr;
+         */
         e.getThrowable().printStackTrace();
     }
     

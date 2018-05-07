@@ -15,6 +15,10 @@ public abstract class ApplicationException extends Exception implements Applicat
      * @param message 异常信息
      */
     public ApplicationException(String message) {
+        /**
+         * @effects:
+         *          message will be set using the constructor of the parent class;
+         */
         super(message);
     }
     

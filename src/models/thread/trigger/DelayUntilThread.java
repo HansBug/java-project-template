@@ -27,6 +27,10 @@ public abstract class DelayUntilThread<T> extends TriggerThread<T> {
      * @return 目标时间
      */
     public Timestamp getUntilTime() {
+        /**
+         * @effects:
+         *          \result = \this.until_time;
+         */
         return until_time;
     }
     
@@ -36,6 +40,12 @@ public abstract class DelayUntilThread<T> extends TriggerThread<T> {
      * @param until_time 目标时间
      */
     protected void setUntilTime(Timestamp until_time) {
+        /**
+         * @modifies:
+         *          \this.until_time;
+         * @effects:
+         *          \this.until_time = until_time;
+         */
         this.until_time = until_time;
     }
     
@@ -45,6 +55,12 @@ public abstract class DelayUntilThread<T> extends TriggerThread<T> {
      * @param until_time 目标时间
      */
     public DelayUntilThread(Timestamp until_time) {
+        /**
+         * @modifies:
+         *          \this.until_time;
+         * @effects:
+         *          \this.until_time = until_time;
+         */
         setUntilTime(until_time);
     }
     
@@ -56,6 +72,10 @@ public abstract class DelayUntilThread<T> extends TriggerThread<T> {
      */
     @Override
     public void beforeTrigger(ThreadBeforeTriggerEvent e) throws InterruptedException {
-        ApplicationThread.sleepUntil(this.until_time);
+        /**
+         * @effects:
+         *          wait until the timestamp of \this.until_time came;
+         */
+        sleepUntil(this.until_time);
     }
 }

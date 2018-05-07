@@ -18,6 +18,13 @@ public abstract class ParserException extends ApplicationException {
      * @param origin_string 原字符串
      */
     public ParserException(String message, String origin_string) {
+        /**
+         * @modifies:
+         *          \this.origin_string;
+         * @effects:
+         *          message will be set using the constructor of the parent class;
+         *          \this.origin_string = origin_string;
+         */
         super(message);
         this.origin_string = origin_string;
     }
@@ -28,6 +35,10 @@ public abstract class ParserException extends ApplicationException {
      * @return 原字符串
      */
     public String getOriginString() {
+        /**
+         * @effects:
+         *          \result = \this.origin_string;
+         */
         return this.origin_string;
     }
 }

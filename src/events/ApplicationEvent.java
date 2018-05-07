@@ -23,6 +23,10 @@ public abstract class ApplicationEvent<T> {
      * @param host 事件发生者
      */
     public ApplicationEvent(T host) {
+        /**
+         * @modifies:
+         *          \this.host;
+         */
         this.host = host;
     }
     
@@ -32,6 +36,10 @@ public abstract class ApplicationEvent<T> {
      * @return 事件发生者
      */
     public T getHost() {
+        /**
+         * @effects:
+         *          \result = \this.host;
+         */
         return host;
     }
 }

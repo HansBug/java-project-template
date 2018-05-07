@@ -33,6 +33,12 @@ public class ThreadSafePool<T> extends ApplicationModel {
          * @param object 包裹对象
          */
         private ThreadSafeObject(T object) {
+            /**
+             * @modifies:
+             *          \this.object;
+             * @effects:
+             *          \this.object = object;
+             */
             this.object = object;
         }
         
@@ -42,6 +48,10 @@ public class ThreadSafePool<T> extends ApplicationModel {
          * @return 包裹对象
          */
         public T getObject() {
+            /**
+             * @effects:
+             *          \result = \this.object;
+             */
             return object;
         }
     }
@@ -62,6 +72,14 @@ public class ThreadSafePool<T> extends ApplicationModel {
      * @param translator 翻译函数
      */
     public ThreadSafePool(Translator<T, T> translator) {
+        /**
+         * @modifies:
+         *          \this.translator;
+         *          \this.map;
+         * @effects:
+         *          \this.translator = translator;
+         *          \this.map = new HashMap();
+         */
         this.translator = translator;
         this.map = new HashMap<>();
     }
@@ -70,6 +88,14 @@ public class ThreadSafePool<T> extends ApplicationModel {
      * 构造函数（使用直译函数，即不翻译）
      */
     public ThreadSafePool() {
+        /**
+         * @modifies:
+         *          \this.translator;
+         *          \this.map;
+         * @effects:
+         *          \this.translator = default translator;
+         *          \this.map = new HashMap();
+         */
         this(new Translator<T, T>() {
             @Override
             public T translate(T origin) {
@@ -85,6 +111,14 @@ public class ThreadSafePool<T> extends ApplicationModel {
      * @return 锁定对象
      */
     public ThreadSafeObject getSafeObject(T value) {
+        /**
+         * @modifies:
+         *          \this.map;
+         * @effects:
+         *          \result = \this.map.get(actual_value);
+         * @notice:
+         *          actual_value is defined as the value after translated by the translator;
+         */
         synchronized (this.map) {
             T actual_value = this.translator.translate(value);
             if (!this.map.containsKey(actual_value)) {

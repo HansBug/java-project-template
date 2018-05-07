@@ -11,6 +11,11 @@ public class OutOfRangePropertyException extends InvalidPropertyException {
      * @param message 异常信息
      */
     public OutOfRangePropertyException(Object data, String message) {
+        /**
+         * @effects:
+         *          message will be set using the constructor of the parent class;
+         *          \this.data = data;
+         */
         super(data, message);
     }
 }

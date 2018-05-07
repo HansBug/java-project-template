@@ -15,7 +15,10 @@ public class BigIntegerParser extends BasicDataTypeParser<BigInteger> {
      */
     @Override
     public BigInteger getParseResult(String str) throws Throwable {
-
+        /**
+         * @effects:
+         *          \result will be BigInteger parse result of str;
+         */
         return new BigInteger(str);
     }
 }

@@ -24,6 +24,10 @@ public abstract class TimeBasedObject<T> extends TimeBasedModel implements Compa
      * @param object 包裹对象类型
      */
     public TimeBasedObject(T object) {
+        /**
+         * @modifies:
+         *          \this.object;
+         */
         this.object = object;
     }
     
@@ -33,6 +37,10 @@ public abstract class TimeBasedObject<T> extends TimeBasedModel implements Compa
      * @return 包裹对象
      */
     protected T getObject() {
+        /**
+         * @effects:
+         *          \result = \this.object;
+         */
         return this.object;
     }
     
@@ -44,6 +52,10 @@ public abstract class TimeBasedObject<T> extends TimeBasedModel implements Compa
      */
     @Override
     public int compareTo(TimeBasedObject<T> o) {
+        /**
+         * @effects:
+         *          \result = Timestamp.compare(\this.getTimestamp(), o.getTimestamp());
+         */
         return Timestamp.compare(this.getTimestamp(), o.getTimestamp());
     }
 }

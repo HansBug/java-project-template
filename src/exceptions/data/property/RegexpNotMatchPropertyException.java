@@ -11,6 +11,11 @@ public class RegexpNotMatchPropertyException extends InvalidPropertyException {
      * @param regexp 正则表达式
      */
     public RegexpNotMatchPropertyException(Object data, String regexp) {
+        /**
+         * @effects:
+         *          message will be set using the constructor of the parent class;
+         *          \this.data = data;
+         */
         super(data, String.format("Property value \"%s\" not match regular expression \"%s\".", data, regexp));
     }
 }

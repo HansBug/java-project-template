@@ -20,6 +20,11 @@ public class ComparableGenericPair<X extends Comparable<X>, Y extends Comparable
      * @param second 第二个值
      */
     public ComparableGenericPair(X first, Y second) {
+        /**
+         * @modifies:
+         *          this.first;
+         *          this.second;
+         */
         super(first, second);
     }
     
@@ -31,6 +36,11 @@ public class ComparableGenericPair<X extends Comparable<X>, Y extends Comparable
      */
     @Override
     public int compareTo(ComparableGenericPair<X, Y> o) {
+        /**
+         * @effects:
+         *          (this.getFirst ().compareTo(o.getFirst ()) != 0) ==> \result = this.getFirst().compareTo(o.getFirst());
+         *          (this.getFirst().compareTo(o.getSecond()) == 0) ==> \result = this.getSecond().compareTo(o.getSecond());
+         */
         int compare_x = this.getFirst().compareTo(o.getFirst());
         if (compare_x != 0) {
             return compare_x;

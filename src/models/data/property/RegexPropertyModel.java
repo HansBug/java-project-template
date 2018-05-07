@@ -30,6 +30,14 @@ public class RegexPropertyModel<T> extends NotNullPropertyModel<T> {
      * @param data   初始值
      */
     public RegexPropertyModel(String regexp, T data) {
+        /**
+         * @modifies:
+         *          \this.data;
+         *          \this.pattern;
+         * @effects:
+         *          \this.data = data;
+         *          \this.pattern = Pattern.compile(regexp);
+         */
         super(data);
         this.pattern = Pattern.compile(regexp);
     }
@@ -40,6 +48,14 @@ public class RegexPropertyModel<T> extends NotNullPropertyModel<T> {
      * @param regexp 正则表达式
      */
     public RegexPropertyModel(String regexp) {
+        /**
+         * @modifies:
+         *          \this.data;
+         *          \this.pattern;
+         * @effects:
+         *          \this.data = null;
+         *          \this.pattern = Pattern.compile(regexp);
+         */
         this.pattern = Pattern.compile(regexp);
     }
     
@@ -49,6 +65,10 @@ public class RegexPropertyModel<T> extends NotNullPropertyModel<T> {
      * @return 正则表达式
      */
     public String getRegexp() {
+        /**
+         * @effects:
+         *          \result = \this.pattern.pattern();
+         */
         return this.pattern.pattern();
     }
     
@@ -60,6 +80,14 @@ public class RegexPropertyModel<T> extends NotNullPropertyModel<T> {
      */
     @Override
     public void validate(T value) throws InvalidPropertyException {
+        /**
+         * @effects:
+         *          normal_behaviour:
+         *          validated by super.validate(T data)
+         *          value.toString checked with this.regexp with regular expression matching
+         *
+         *          exceptional_behaviour(RegexpNotMatchPropertyException): not matched string
+         */
         super.validate(value);
         if (!Pattern.matches(this.getRegexp(), value.toString())) {
             throw new RegexpNotMatchPropertyException(value, this.getRegexp());

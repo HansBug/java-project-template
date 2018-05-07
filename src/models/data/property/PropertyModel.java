@@ -36,6 +36,12 @@ public abstract class PropertyModel<T> extends ApplicationModel implements Prope
      * @param data 初值
      */
     public PropertyModel(T data) {
+        /**
+         * @modifies:
+         *          \this.data;
+         * @effects:
+         *          \this.data = data;
+         */
         this.data = data;
     }
     
@@ -43,6 +49,12 @@ public abstract class PropertyModel<T> extends ApplicationModel implements Prope
      * 构造函数（设置初值为null）
      */
     public PropertyModel() {
+        /**
+         * @modifies:
+         *          \this.data;
+         * @effects:
+         *          \this.data = null;
+         */
         this(null);
     }
     
@@ -52,6 +64,14 @@ public abstract class PropertyModel<T> extends ApplicationModel implements Prope
      * @throws InvalidPropertyException 非法数据异常类
      */
     public void validate() throws InvalidPropertyException {
+        /**
+         * @effects:
+         *          normal behavior:
+         *              \this.data check by \this.validate(T data);
+         *
+         *          exceptional behavior(InvalidPropertyException):
+         *              InvalidPropertyException throw by \this.validate(\this.data);
+         */
         this.validate(this.data);
     }
     
@@ -62,8 +82,22 @@ public abstract class PropertyModel<T> extends ApplicationModel implements Prope
      * @return 数据是否合法
      */
     public boolean isValid(T data) {
+        /**
+         * @modifies:
+         *          \this.property_exception;
+         * @effects:
+         *          normal behavior:
+         *              data check by \this.validate(T data);
+         *              \this.property_exception = null;
+         *              \result = true;
+         *
+         *          InvalidPropertyException thrown by \this.validate(\this.data):
+         *              \this.property_exception = InvalidPropertyException;
+         *              \result = false;
+         */
         try {
             this.validate(data);
+            this.property_exception = null;
             return true;
         } catch (InvalidPropertyException e) {
             this.property_exception = e;
@@ -77,6 +111,10 @@ public abstract class PropertyModel<T> extends ApplicationModel implements Prope
      * @return 是否合法
      */
     public boolean isValid() {
+        /**
+         * @effects:
+         *      \result = \this.isValid(\this.data);
+         */
         return this.isValid(this.data);
     }
     
@@ -87,6 +125,10 @@ public abstract class PropertyModel<T> extends ApplicationModel implements Prope
      * @return 数据信息
      */
     public T getData() {
+        /**
+         * @effects:
+         *          \result = \this.data;
+         */
         return this.data;
     }
     
@@ -96,6 +138,12 @@ public abstract class PropertyModel<T> extends ApplicationModel implements Prope
      * @param data 设置数据信息
      */
     public void setData(T data) {
+        /**
+         * @modifies:
+         *          \this.data;
+         * @effects:
+         *          \this.data = data;
+         */
         this.data = data;
     }
     
@@ -105,6 +153,10 @@ public abstract class PropertyModel<T> extends ApplicationModel implements Prope
      * @return 参数异常类
      */
     public InvalidPropertyException getPropertyException() {
+        /**
+         * @effects:
+         *          \result = \this.property_exception;
+         */
         return this.property_exception;
     }
     
@@ -118,6 +170,12 @@ public abstract class PropertyModel<T> extends ApplicationModel implements Prope
      */
     @SuppressWarnings("unchecked")
     public static <T> PropertyModel<T> getModel(T data, PropertyValidator<T>... properties) {
+        /**
+         * @requies:
+         *          (\ all validator ; properties.contains ( validator); validator != null);
+         * @effects:
+         *          \result is set to a PropertyModel which can validate all the Models in properties;
+         */
         return new PropertyModel<T>(data) {
             @Override
             public void validate(T value) throws InvalidPropertyException {
@@ -136,6 +194,10 @@ public abstract class PropertyModel<T> extends ApplicationModel implements Prope
      * @return 复合数据模型
      */
     public static <T> PropertyModel<T> getModel(PropertyValidator<T>... properties) {
+        /**
+         * @effects:
+         *          \result = getModel(null, properties);
+         */
         return getModel(null, properties);
     }
 }

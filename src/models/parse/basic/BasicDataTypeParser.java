@@ -19,6 +19,13 @@ public abstract class BasicDataTypeParser<T> extends ApplicationParser<T> implem
      */
     @Override
     public T parse(String str) throws UnableToParseException {
+        /**
+         * @effects:
+         *          normal behavior:
+         *              \result = \this.getParseResult(str);
+         *          Throwable thrown from \this.getParseResult:
+         *              throw UnableToParseException;
+         */
         try {
             return this.getParseResult(str);
         } catch (Throwable e) {

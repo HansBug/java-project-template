@@ -23,6 +23,10 @@ public abstract class ApplicationHelper implements ApplicationInterface {
      * @return 随机对象
      */
     public static Random getRandom() {
+        /**
+         * @effects:
+         *          \result = random;
+         */
         return random;
     }
 }

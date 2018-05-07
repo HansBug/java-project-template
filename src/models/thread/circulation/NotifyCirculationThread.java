@@ -23,6 +23,12 @@ public abstract class NotifyCirculationThread extends ApplicationThread implemen
      */
     @Override
     public void execute() throws Throwable {
+        /**
+         * @effects:
+         *          Firstly, \this.beforeCirculation will be executed before the circulation begin;
+         *          Then, this circulation will start;
+         *          After the circulation was broken, \this.afterCirculation will be executed;
+         */
         this.beforeCirculation();
         while (this.permitContinue()) {
             if (!this.permitCirculation()) {
@@ -39,6 +45,10 @@ public abstract class NotifyCirculationThread extends ApplicationThread implemen
      * 停止对象阻塞继续循环
      */
     public void permitCirculationAtOnce() {
+        /**
+         * @effects:
+         *          \this.wait_object will be notifyAll();
+         */
         synchronized (this.wait_object) {
             this.wait_object.notifyAll();
         }

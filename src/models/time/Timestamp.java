@@ -29,6 +29,12 @@ public class Timestamp extends HashBasedModel implements Comparable<Timestamp> {
      * @param timestamp long格式时间戳
      */
     public Timestamp(long timestamp) {
+        /**
+         * @modifies:
+         *          \this.timestamp;
+         * @effects:
+         *          \this.timestamp = timestamp;
+         */
         this.timestamp = timestamp;
     }
     
@@ -36,6 +42,12 @@ public class Timestamp extends HashBasedModel implements Comparable<Timestamp> {
      * 根据当前系统时间初始化
      */
     public Timestamp() {
+        /**
+         * @modifies:
+         *          \this.timestamp;
+         * @effects:
+         *          \this.timestamp will be set to the current timestamp;
+         */
         this(System.currentTimeMillis());
     }
     
@@ -45,6 +57,10 @@ public class Timestamp extends HashBasedModel implements Comparable<Timestamp> {
      * @return long值
      */
     public long getTimestamp() {
+        /**
+         * @effects:
+         *          \result = \this.timestamp;
+         */
         return timestamp;
     }
     
@@ -55,6 +71,10 @@ public class Timestamp extends HashBasedModel implements Comparable<Timestamp> {
      * @return 移动后的时间戳
      */
     public Timestamp getOffseted(long offset) {
+        /**
+         * @effects:
+         *          \result.timestamp = \this.timestamp + offset;
+         */
         return new Timestamp(this.timestamp + offset);
     }
     
@@ -65,6 +85,10 @@ public class Timestamp extends HashBasedModel implements Comparable<Timestamp> {
      * @return 向前对齐后的时间戳
      */
     public Timestamp getForwardAligned(long unit) {
+        /**
+         * @effects:
+         *          \result.timestamp = \this.timestamp - \this.timestamp % unit;
+         */
         return new Timestamp(this.timestamp - this.timestamp % unit);
     }
     
@@ -75,6 +99,11 @@ public class Timestamp extends HashBasedModel implements Comparable<Timestamp> {
      * @return 向后对齐后的时间戳
      */
     public Timestamp getBackwardAligned(long unit) {
+        /**
+         * @effects:
+         *          (( \ this.timestamp % unit) == 0) ==> \result.timestamp = \this.timestamp;
+         *          ((\this.timestamp % unit) != 0) ==> \result.timestamp = \this.timestamp + (unit - \this.timestamp % unit);
+         */
         long remain = this.timestamp % unit;
         long timestamp = this.timestamp;
         if (remain > 0) timestamp += (unit - remain);
@@ -88,6 +117,10 @@ public class Timestamp extends HashBasedModel implements Comparable<Timestamp> {
      */
     @Override
     public String toString() {
+        /**
+         * @effects:
+         *          \result will be set to the String format of the timestamp(using format yyyy-MM-dd HH:mm:ss.SSS)
+         */
         Date d = new Date(this.timestamp);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         return sdf.format(d);
@@ -101,6 +134,12 @@ public class Timestamp extends HashBasedModel implements Comparable<Timestamp> {
      */
     @Override
     public int compareTo(Timestamp timestamp) {
+        /**
+         * @effects:
+         *          \result = \this.timestamp <=> timestamp.timestamp;
+         * @notice:
+         *          <=> means the compare operation of the values;
+         */
         return Long.compare(this.timestamp, timestamp.timestamp);
     }
     
@@ -112,6 +151,12 @@ public class Timestamp extends HashBasedModel implements Comparable<Timestamp> {
      */
     @Override
     public boolean equals(Object obj) {
+        /**
+         * @effects:
+         *          (\ this = = obj) ==> \result = true;
+         *          (obj is an instance of Timestamp) ==> \result = \this <=> obj;
+         *          ((\this != obj) && (obj is not an instance of Timestamp)) ==> \result = false;
+         */
         if (this == obj) {
             return true;
         } else if (obj instanceof Timestamp) {
@@ -128,6 +173,10 @@ public class Timestamp extends HashBasedModel implements Comparable<Timestamp> {
      */
     @Override
     public int hashCode() {
+        /**
+         * @effects:
+         *          \result will be set to the hashCode of \this.timestamp;
+         */
         return this.timestamp.hashCode();
     }
     
@@ -140,6 +189,12 @@ public class Timestamp extends HashBasedModel implements Comparable<Timestamp> {
      * @return 比对结果
      */
     public static int compare(Timestamp timestamp1, Timestamp timestamp2) {
+        /**
+         * @effects:
+         *          \result = timestamp1 <=> timestamp2;
+         * @notice:
+         *          <=> means the compare operation of the values;
+         */
         return timestamp1.compareTo(timestamp2);
     }
 }

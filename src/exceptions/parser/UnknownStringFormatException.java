@@ -7,9 +7,16 @@ public class UnknownStringFormatException extends ParserException {
     /**
      * 构造函数
      *
-     * @param str 原字符串
+     * @param origin_string 原字符串
      */
-    public UnknownStringFormatException(String str) {
-        super(String.format("Unknown string format - \"%s\".", str), str);
+    public UnknownStringFormatException(String origin_string) {
+        /**
+         * @modifies:
+         *          \this.origin_string;
+         * @effects:
+         *          message will be set using the constructor of the parent class;
+         *          \this.origin_string = origin_string;
+         */
+        super(String.format("Unknown string format - \"%s\".", origin_string), origin_string);
     }
 }

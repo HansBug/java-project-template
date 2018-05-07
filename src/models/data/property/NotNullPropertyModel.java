@@ -18,6 +18,12 @@ public class NotNullPropertyModel<T> extends PropertyModel<T> {
      * @param data 初始值
      */
     public NotNullPropertyModel(T data) {
+        /**
+         * @modifies:
+         *          \this.data;
+         * @effects:
+         *          \this.data = data;
+         */
         super(data);
     }
     
@@ -25,6 +31,13 @@ public class NotNullPropertyModel<T> extends PropertyModel<T> {
      * 构造函数（null初始值）
      */
     public NotNullPropertyModel() {
+        /**
+         * @modifies:
+         *          \this.data;
+         * @effects:
+         *          \this.data = null;
+         */
+        super();
     }
     
     /**
@@ -36,6 +49,13 @@ public class NotNullPropertyModel<T> extends PropertyModel<T> {
     @Override
     @SuppressWarnings("all")
     public void validate(T value) throws InvalidPropertyException {
+        /**
+         * @effects:
+         *          normal_behaviour
+         *          None
+         *
+         *          (value == null) ==> exceptional_behaviour(NullPropertyException)
+         */
         if (value == null) throw new NullPropertyException(value);
     }
 }

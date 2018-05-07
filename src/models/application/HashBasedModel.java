@@ -24,6 +24,12 @@ public class HashBasedModel extends ApplicationModel {
      */
     @Override
     public boolean equals(Object obj) {
+        /**
+         * @effects:
+         *          (\ this = = obj) ==> \result = true;
+         *          (\this.getClass().isInstance(obj)) ==> \result = (\this.hashCode() == obj.hashCode());
+         *          ((\this != obj) && (!\this.getClass().isInstance(obj))) ==> \result = false;
+         */
         if (this == obj) {  // 是自己
             return true;
         } else if (this.getClass().isInstance(obj)) {  // 同类型，进行基于哈希的判定

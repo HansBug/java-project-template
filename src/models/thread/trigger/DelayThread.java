@@ -25,6 +25,10 @@ public abstract class DelayThread<T> extends TriggerThread<T> {
      * @return 等待时间
      */
     public long getWaitTime() {
+        /**
+         * @effects:
+         *          \result = \this.wait_time;
+         */
         return wait_time;
     }
     
@@ -34,6 +38,12 @@ public abstract class DelayThread<T> extends TriggerThread<T> {
      * @param wait_time 等待时间
      */
     protected void setWaitTime(long wait_time) {
+        /**
+         * @modifies:
+         *          \this.wait_time;
+         * @effects:
+         *          \this.wait_time = wait_time;
+         */
         this.wait_time = wait_time;
     }
     
@@ -43,6 +53,12 @@ public abstract class DelayThread<T> extends TriggerThread<T> {
      * @param wait_time 等待时间
      */
     public DelayThread(long wait_time) {
+        /**
+         * @modifies:
+         *          \this.wait_time;
+         * @effects:
+         *          \this.wait_time = wait_time;
+         */
         setWaitTime(wait_time);
     }
     
@@ -54,6 +70,10 @@ public abstract class DelayThread<T> extends TriggerThread<T> {
      */
     @Override
     public void beforeTrigger(ThreadBeforeTriggerEvent e) throws InterruptedException {
+        /**
+         * @effects:
+         *          sleep for wait_time milliseconds;
+         */
         Thread.sleep(wait_time);
     }
 }

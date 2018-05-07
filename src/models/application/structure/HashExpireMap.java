@@ -18,6 +18,7 @@ import java.util.function.Function;
  * <p>
  * 注：
  * 1、该类目前尚未经过大量生产环境测试，如果遇到bug请联系作者
+ * 2、该类大部分方法规格与父类HashMap一致（之所以重写只是因为需要进行数据同步性维护），故大部分方法将省略规格
  *
  * @param <K> key类型
  * @param <V> value类型
