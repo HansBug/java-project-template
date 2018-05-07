@@ -1,4 +1,4 @@
-package models.application.structure;
+package models.structure.object;
 
 import models.application.TimeBasedModel;
 import models.time.Timestamp;

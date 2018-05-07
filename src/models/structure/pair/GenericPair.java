@@ -1,4 +1,4 @@
-package models.application.structure;
+package models.structure.pair;
 
 import models.application.HashBasedModel;
 
@@ -119,5 +119,28 @@ public class GenericPair<X, Y> extends HashBasedModel {
          *          \result = Arrays.hashCode
          */
         return Arrays.hashCode(new Object[]{this.first, this.second});
+    }
+    
+    /**
+     * 二元对相等性判定
+     *
+     * @param obj 另一个对象
+     * @return 是否相等
+     */
+    @Override
+    public boolean equals(Object obj) {
+        /**
+         * @effects:
+         *          (\this == obj) ==> \result = true;
+         *          (obj is instance of GenericPair) ==> \result = (\this.first equals obj.first) && (\this.second equals obj.second);
+         *          (!(\this == obj) && !(obj is instance of GenericPair)) ==> \result = false;
+         */
+        if (this == obj) {
+            return true;
+        } else if (obj instanceof GenericPair) {
+            return this.first.equals(((GenericPair) obj).first) && this.second.equals(((GenericPair) obj).second);
+        } else {
+            return false;
+        }
     }
 }

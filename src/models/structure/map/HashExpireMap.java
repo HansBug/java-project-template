@@ -1,6 +1,7 @@
-package models.application.structure;
+package models.structure.map;
 
 import interfaces.application.ApplicationInterface;
+import models.structure.object.TimeBasedObject;
 import models.time.Timestamp;
 
 import java.util.*;

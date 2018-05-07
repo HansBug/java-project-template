@@ -1,4 +1,4 @@
-package models.application.structure;
+package models.structure.pair;
 
 /**
  * 可比较大小二元对类
@@ -12,14 +12,14 @@ package models.application.structure;
  * @param <X> 类型X（必须继承Comparable接口）
  * @param <Y> 类型Y（必须继承Comparable接口）
  */
-public class ComparableGenericPair<X extends Comparable<X>, Y extends Comparable<Y>> extends GenericPair<X, Y> implements Comparable<ComparableGenericPair<X, Y>> {
+public class ComparablePair<X extends Comparable<X>, Y extends Comparable<Y>> extends GenericPair<X, Y> implements Comparable<ComparablePair<X, Y>> {
     /**
      * 构造函数
      *
      * @param first  第一个值
      * @param second 第二个值
      */
-    public ComparableGenericPair(X first, Y second) {
+    public ComparablePair(X first, Y second) {
         /**
          * @modifies:
          *          this.first;
@@ -35,7 +35,7 @@ public class ComparableGenericPair<X extends Comparable<X>, Y extends Comparable
      * @return 比较结果
      */
     @Override
-    public int compareTo(ComparableGenericPair<X, Y> o) {
+    public int compareTo(ComparablePair<X, Y> o) {
         /**
          * @effects:
          *          (this.getFirst ().compareTo(o.getFirst ()) != 0) ==> \result = this.getFirst().compareTo(o.getFirst());

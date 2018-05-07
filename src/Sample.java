@@ -2,7 +2,7 @@ import events.thread.ThreadExceptionEvent;
 import events.thread.ThreadTriggerEvent;
 import events.thread.ThreadTriggerWithReturnValueEvent;
 import interfaces.thread.TriggerInterface;
-import models.application.structure.HashExpireMap;
+import models.structure.map.HashExpireMap;
 import models.file.FileAppendWriter;
 import models.file.LogWriter;
 import models.thread.circulation.SimpleCirculationThread;
