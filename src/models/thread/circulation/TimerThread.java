@@ -37,7 +37,31 @@ public abstract class TimerThread extends SimpleCirculationThread implements Tri
     private final TimerThread self = this;
     
     /**
+     * 是否立刻触发
+     */
+    private boolean trigger_at_once;
+    
+    /**
      * 构造函数
+     *
+     * @param time_span       时间间隔
+     * @param trigger_at_once 是否立刻触发
+     */
+    public TimerThread(long time_span, boolean trigger_at_once) {
+        /**
+         * @modifies:
+         *          \this.time_span;
+         *          \this.trigger_at_once;
+         * @effects:
+         *          \this.time_span = time_span;
+         *          \this.trigger_at_once = trigger_at_once;
+         */
+        this.time_span = time_span;
+        this.trigger_at_once = trigger_at_once;
+    }
+    
+    /**
+     * 构造函数（会立刻触发）
      *
      * @param time_span 时间间隔
      */
@@ -45,10 +69,12 @@ public abstract class TimerThread extends SimpleCirculationThread implements Tri
         /**
          * @modifies:
          *          \this.time_span;
+         *          \this.trigger_at_once;
          * @effects:
          *          \this.time_span = time_span;
+         *          \this.trigger_at_once = true;
          */
-        this.time_span = time_span;
+        this(time_span, true);
     }
     
     /**
@@ -61,10 +87,10 @@ public abstract class TimerThread extends SimpleCirculationThread implements Tri
          *          \this.timestamp;
          * @effects:
          *          \this.timestamp will be set to the current time;
-         *          trigger for one time using method callTrigger();
+         *          trigger for one time using method callTrigger() if trigger_at_once is true;
          */
         timestamp = new Timestamp();
-        callTrigger(timestamp);
+        if (trigger_at_once) callTrigger(timestamp);
     }
     
     /**
