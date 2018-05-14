@@ -17,6 +17,10 @@ public class ThreadBeforeTriggerEvent extends ApplicationThreadEvent {
      * @param host 发生者
      */
     public ThreadBeforeTriggerEvent(ApplicationThread host) {
+        /**
+         * @effects:
+         *          it will be initialized by super class;
+         */
         super(host);
     }
     
@@ -26,6 +30,10 @@ public class ThreadBeforeTriggerEvent extends ApplicationThreadEvent {
      * @return 是否允许触发
      */
     public boolean getAllowTrigger() {
+        /**
+         * @effects:
+         *          \result == \this.allow_trigger;
+         */
         return this.allow_trigger;
     }
     
@@ -35,6 +43,12 @@ public class ThreadBeforeTriggerEvent extends ApplicationThreadEvent {
      * @param allow_trigger 是否允许触发
      */
     public void setAllowTrigger(boolean allow_trigger) {
+        /**
+         * @modifies:
+         *          \this.allow_trigger;
+         * @effects:
+         *          \this.allow_trigger == allow_trigger;
+         */
         this.allow_trigger = allow_trigger;
     }
 }

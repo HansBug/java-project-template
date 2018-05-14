@@ -12,6 +12,10 @@ public abstract class ApplicationThreadEvent extends ApplicationEvent<Applicatio
      * @param host 发生者
      */
     public ApplicationThreadEvent(ApplicationThread host) {
+        /**
+         * @effects:
+         *          it will be initialized by super class;
+         */
         super(host);
     }
 }

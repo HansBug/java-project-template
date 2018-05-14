@@ -12,6 +12,10 @@ public class ThreadAfterCirculationEvent extends ApplicationThreadEvent {
      * @param host 事件发生者
      */
     public ThreadAfterCirculationEvent(ApplicationThread host) {
+        /**
+         * @effects:
+         *          it will be initialized by super class;
+         */
         super(host);
     }
 }

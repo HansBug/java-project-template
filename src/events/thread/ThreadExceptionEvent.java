@@ -18,6 +18,14 @@ public class ThreadExceptionEvent extends ApplicationThreadEvent {
      * @param throwable 异常对象
      */
     public ThreadExceptionEvent(ApplicationThread host, Throwable throwable) {
+        /**
+         * @modifies:
+         *          \this.host;
+         *          \this.throwable;
+         * @effects:
+         *          \this.host == host;
+         *          \this.throwable == throwable;
+         */
         super(host);
         this.throwable = throwable;
     }
@@ -28,6 +36,10 @@ public class ThreadExceptionEvent extends ApplicationThreadEvent {
      * @return 异常对象
      */
     public Throwable getThrowable() {
+        /**
+         * @effects:
+         *          \result == \this.throwable;
+         */
         return throwable;
     }
 }

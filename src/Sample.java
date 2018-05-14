@@ -261,7 +261,7 @@ public abstract class Sample {
         t1.add(timestamp.getOffseted(3000), new TriggerInterface() {  // 时间戳后严格3000ms
             @Override
             public void trigger(ThreadTriggerEvent e) {
-                System.out.println(String.format("[%s] first trigger", new Timestamp()));
+                System.out.println(String.format("[%s] first trigger, object: %s", new Timestamp(), e.getAttachedObject()));
                 t1.add(100, new TriggerInterface() {  // 此trigger触发后100ms结束时间线线程
                     @Override
                     public void trigger(ThreadTriggerEvent e) {
@@ -275,9 +275,9 @@ public abstract class Sample {
         t1.add(2000, new TriggerInterface() {  // 调用时间后 2000ms
             @Override
             public void trigger(ThreadTriggerEvent e) {
-                System.out.println(String.format("[%s] second trigger", new Timestamp()));
+                System.out.println(String.format("[%s] second trigger, object: %s", new Timestamp(), e.getAttachedObject()));
             }
-        });
+        }, 2);
         
         t1.join();
     }

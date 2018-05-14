@@ -48,7 +48,7 @@ public class TimelineTriggerThread extends SimpleCirculationThread {
          * @param trigger   触发器接口
          * @param timestamp 时间戳
          */
-        public TimeBasedTrigger(TriggerInterface trigger, Timestamp timestamp) {
+        public TimeBasedTrigger(TriggerInterface trigger, Timestamp timestamp, Object attached_object) {
             /**
              * @modifies:
              *          \this.object;
@@ -64,7 +64,7 @@ public class TimelineTriggerThread extends SimpleCirculationThread {
             this.thread = new DelayUntilThread(timestamp) {
                 @Override
                 public void trigger(ThreadTriggerWithReturnValueEvent e) throws Throwable {
-                    trigger.trigger(new ThreadTriggerEvent(self, timestamp));
+                    trigger.trigger(new ThreadTriggerEvent(self, timestamp, attached_object));
                 }
                 
                 @Override
@@ -112,10 +112,11 @@ public class TimelineTriggerThread extends SimpleCirculationThread {
     /**
      * 新增触发器（在指定的时间戳上触发）
      *
-     * @param timestamp 时间戳
-     * @param trigger   触发器
+     * @param timestamp       时间戳
+     * @param trigger         触发器
+     * @param attached_object 附加对象
      */
-    public void add(Timestamp timestamp, TriggerInterface trigger) {
+    public void add(Timestamp timestamp, TriggerInterface trigger, Object attached_object) {
         /**
          * @modifies:
          *          \this.queue;
@@ -124,10 +125,42 @@ public class TimelineTriggerThread extends SimpleCirculationThread {
          *          \this.lock_object will be notified to all;
          */
         synchronized (this.queue) {
-            this.queue.add(new TimeBasedTrigger(trigger, timestamp));
+            this.queue.add(new TimeBasedTrigger(trigger, timestamp, attached_object));
             synchronized (this.lock_object) {
                 this.lock_object.notifyAll();
             }
+        }
+    }
+    
+    /**
+     * 新增触发器（在指定的时间戳上触发）
+     *
+     * @param timestamp 时间戳
+     * @param trigger   触发器
+     */
+    public void add(Timestamp timestamp, TriggerInterface trigger) {
+        add(timestamp, trigger, null);
+    }
+    
+    /**
+     * 新增触发器（调用后一定时间触发）
+     *
+     * @param time_after      时间间隔
+     * @param trigger         触发器
+     * @param attached_object 附加对象
+     */
+    public void add(long time_after, TriggerInterface trigger, Object attached_object) {
+        /**
+         * @modifies:
+         *          \this.queue;
+         * @effects:
+         *          calculate a new time based on current time;
+         *          add the new trigger task into \this.queue;
+         *          \this.lock_object will be notified to all;
+         */
+        synchronized (this.queue) {
+            Timestamp timestamp = new Timestamp().getOffseted(time_after);
+            this.add(timestamp, trigger, attached_object);
         }
     }
     
@@ -146,10 +179,7 @@ public class TimelineTriggerThread extends SimpleCirculationThread {
          *          add the new trigger task into \this.queue;
          *          \this.lock_object will be notified to all;
          */
-        synchronized (this.queue) {
-            Timestamp timestamp = new Timestamp().getOffseted(time_after);
-            this.add(timestamp, trigger);
-        }
+        this.add(time_after, trigger, null);
     }
     
     /**

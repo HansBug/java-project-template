@@ -19,6 +19,10 @@ public class ThreadTriggerWithReturnValueEvent<T> extends ThreadTriggerEvent {
      * @param host 发生者
      */
     public ThreadTriggerWithReturnValueEvent(ApplicationThread host) {
+        /**
+         * @effects:
+         *          it will be initialized by super class;
+         */
         super(host);
     }
     
@@ -28,6 +32,10 @@ public class ThreadTriggerWithReturnValueEvent<T> extends ThreadTriggerEvent {
      * @return 返回值
      */
     public T getReturnValue() {
+        /**
+         * @effects:
+         *          \result == \this.return_value;
+         */
         return this.return_value;
     }
     
@@ -37,6 +45,12 @@ public class ThreadTriggerWithReturnValueEvent<T> extends ThreadTriggerEvent {
      * @param return_value 返回值
      */
     public void setReturnValue(T return_value) {
+        /**
+         * @modifies:
+         *          \this.return_value;
+         * @effects:
+         *          \this.return_value == return_value;
+         */
         this.return_value = return_value;
     }
 }
