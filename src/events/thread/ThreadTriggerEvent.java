@@ -5,8 +5,10 @@ import models.time.Timestamp;
 
 /**
  * 线程触发器事件对象
+ *
+ * @param <T> 附加数据段类型
  */
-public class ThreadTriggerEvent extends ApplicationThreadEvent {
+public class ThreadTriggerEvent<T> extends ApplicationThreadEvent {
     /**
      * 触发时间
      */
@@ -15,7 +17,7 @@ public class ThreadTriggerEvent extends ApplicationThreadEvent {
     /**
      * 附加对象
      */
-    private final Object attached_object;
+    private final T attached_object;
     
     /**
      * 获取触发事件戳
@@ -35,7 +37,7 @@ public class ThreadTriggerEvent extends ApplicationThreadEvent {
      *
      * @return 附加对象
      */
-    public Object getAttachedObject() {
+    public T getAttachedObject() {
         /**
          * @effects:
          *          \result == \this.attached_object;
@@ -70,7 +72,7 @@ public class ThreadTriggerEvent extends ApplicationThreadEvent {
      * @param target_timestamp 时间戳
      * @param attached_object  附加对象
      */
-    public ThreadTriggerEvent(ApplicationThread host, Timestamp target_timestamp, Object attached_object) {
+    public ThreadTriggerEvent(ApplicationThread host, Timestamp target_timestamp, T attached_object) {
         /**
          * @modifies:
          *          \this.host;

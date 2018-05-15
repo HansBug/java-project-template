@@ -6,7 +6,8 @@ import models.structure.map.HashExpireMap;
 import models.file.FileAppendWriter;
 import models.file.LogWriter;
 import models.thread.circulation.SimpleCirculationThread;
-import models.thread.circulation.TimelineTriggerThread;
+import models.thread.timeline.MultipleTimerThread;
+import models.thread.timeline.TimelineTriggerThread;
 import models.thread.circulation.TimerThread;
 import models.thread.trigger.DelayThread;
 import models.thread.trigger.DelayUntilThread;
@@ -34,6 +35,7 @@ public abstract class Sample {
         testHashExpireMap();
         testTimelineTriggerThread();
         testTimerThread();
+        testMultipleTimerThread();
     }
     
     /**
@@ -301,5 +303,31 @@ public abstract class Sample {
         };
         timer1.start();
         timer1.join();
+    }
+    
+    /**
+     * MultipleTimerThread效果展示
+     *
+     * @throws Throwable 任意异常类
+     */
+    private static void testMultipleTimerThread() throws Throwable {
+        System.out.println();
+        MultipleTimerThread<Integer> m = new MultipleTimerThread<>();
+        m.start();
+        
+        TriggerInterface t = new TriggerInterface() {
+            @Override
+            public void trigger(ThreadTriggerEvent e) {
+                System.out.println(String.format("%s, %s", new Timestamp(), e.getAttachedObject()));
+            }
+        };
+        
+        m.addTimer(500, t, 20);
+        m.addTimer(600, t, 30);
+        m.addTimer(700, t, 40);
+        
+        Thread.sleep(5200);
+        m.exitGracefully();
+        m.join();
     }
 }
