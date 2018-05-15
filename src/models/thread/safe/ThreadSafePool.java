@@ -1,7 +1,7 @@
 package models.thread.safe;
 
 import interfaces.data.translator.Translator;
-import models.application.ApplicationModel;
+import models.thread.ApplicationThreadModel;
 
 import java.util.HashMap;
 
@@ -17,7 +17,7 @@ import java.util.HashMap;
  *
  * @param <T> 索引值类型
  */
-public class ThreadSafePool<T> extends ApplicationModel {
+public class ThreadSafePool<T> extends ApplicationThreadModel {
     /**
      * 线程安全包裹对象
      */
