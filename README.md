@@ -13,6 +13,7 @@ HansBug的java工程模板，<del>结构灵感取材于ruby on rails</del>2333
 * 进一步完善jsf规格
 * 部分架构大改动
 * 新增MultipleTimerThread，可以用一个线程管理多个Timer，节省线程资源
+* 新增ConditionTriggerThread，可以进行线程条件等待（可自定义条件）
 
 ### update 2018.5.8
 * 修改部分工程架构，将models.application.structure独立出来

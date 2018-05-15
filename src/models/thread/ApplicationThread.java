@@ -1,6 +1,7 @@
 package models.thread;
 
 import events.thread.ThreadExceptionEvent;
+import interfaces.application.ConditionCheckInterface;
 import interfaces.thread.ApplicationThreadInterface;
 import models.time.Timestamp;
 
@@ -56,5 +57,15 @@ public abstract class ApplicationThread extends Thread implements ApplicationThr
         if (wait_time < 0) wait_time = 0;
         sleep(wait_time);
         while (System.currentTimeMillis() < timestamp.getTimestamp()) sleep(0, 100);
+    }
+    
+    /**
+     * 条件等待型sleep
+     *
+     * @param check 条件接口
+     * @throws InterruptedException 中断异常
+     */
+    public static void sleepUntilCondition(ConditionCheckInterface check) throws InterruptedException {
+        while (!check.checkCondition()) sleep(1);
     }
 }
