@@ -62,7 +62,11 @@ public class WaitLock<T> extends ApplicationThreadModel {
          *          (\ this.locked) ==> wait until \this.lock_object be notifyAll();
          */
         if (this.locked) {
-            this.lock_object.wait();
+            synchronized (this.lock_object) {
+                if (this.locked) {
+                    this.lock_object.wait();
+                }
+            }
         }
     }
     
@@ -91,7 +95,9 @@ public class WaitLock<T> extends ApplicationThreadModel {
          *          \this.lock_object will be notified all;
          */
         this.locked = false;
-        this.lock_object.notifyAll();
+        synchronized (this.lock_object) {
+            this.lock_object.notifyAll();
+        }
     }
     
     /**
