@@ -9,6 +9,11 @@ HansBug的java工程模板，<del>结构灵感取材于ruby on rails</del>2333
 
 ## 更新日志
 
+### update 2018.6.15
+* 继续修改架构
+* 去掉了不必要的接口使用，改用抽象方法
+* 新增ApplicationHandler，可自定义输入输出流，方便单元测试
+
 ### update 2018.5.15
 * 进一步完善jsf规格
 * 部分架构大改动

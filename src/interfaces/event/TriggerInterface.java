@@ -1,4 +1,4 @@
-package interfaces.thread;
+package interfaces.event;
 
 import events.thread.ThreadTriggerEvent;
 import interfaces.application.ApplicationInterface;

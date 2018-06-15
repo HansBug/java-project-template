@@ -1,6 +1,5 @@
 package models.thread.circulation;
 
-import interfaces.thread.NotifyCirculationThreadInterface;
 import models.thread.ApplicationThread;
 
 /**
@@ -12,7 +11,7 @@ import models.thread.ApplicationThread;
  * 3、支持自定义循环退出条件
  * 3、支持自定义循环开始前结束后程序
  */
-public abstract class NotifyCirculationThread extends ApplicationThread implements NotifyCirculationThreadInterface {
+public abstract class NotifyCirculationThread extends ApplicationThread {
     /**
      * 阻塞对象
      */
@@ -53,4 +52,41 @@ public abstract class NotifyCirculationThread extends ApplicationThread implemen
             this.wait_object.notifyAll();
         }
     }
+    
+    /**
+     * 轮询开始前执行
+     *
+     * @throws Throwable 异常类
+     */
+    public abstract void beforeCirculation() throws Throwable;
+    
+    /**
+     * 是否允许继续轮询（false则跳出循环）
+     *
+     * @return 是否允许继续
+     * @throws Throwable 异常类
+     */
+    public abstract boolean permitContinue() throws Throwable;
+    
+    /**
+     * 是否允许立刻执行下一次轮询（false则进行一次对象阻塞）
+     *
+     * @return 是否允许立即执行
+     * @throws Throwable 异常类
+     */
+    public abstract boolean permitCirculation() throws Throwable;
+    
+    /**
+     * 轮询体程序
+     *
+     * @throws Throwable 异常类
+     */
+    public abstract void circulation() throws Throwable;
+    
+    /**
+     * 轮询结束后执行
+     *
+     * @throws Throwable 异常类
+     */
+    public abstract void afterCirculation() throws Throwable;
 }

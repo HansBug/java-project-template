@@ -1,7 +1,7 @@
 import events.thread.ThreadExceptionEvent;
 import events.thread.ThreadTriggerEvent;
 import events.thread.ThreadTriggerWithReturnValueEvent;
-import interfaces.thread.TriggerInterface;
+import interfaces.event.TriggerInterface;
 import models.structure.map.HashExpireMap;
 import models.file.FileAppendWriter;
 import models.file.LogWriter;
@@ -99,7 +99,7 @@ public abstract class Sample {
             @Override
             public void beforeCirculation() throws Throwable {
                 count = 0;
-                System.out.println(String.format("[%s] Circulation thread start!", new Timestamp()));
+                System.out.println(String.format("[%s] Circulation event start!", new Timestamp()));
             }
             
             /**
@@ -158,7 +158,7 @@ public abstract class Sample {
         DelayThread t1 = new DelayThread(2000) {
             @Override
             public void trigger(ThreadTriggerWithReturnValueEvent e) throws Throwable {
-                System.out.println(String.format("[%s] delay thread triggered!", new Timestamp()));
+                System.out.println(String.format("[%s] delay event triggered!", new Timestamp()));
             }
             
             @Override
@@ -173,7 +173,7 @@ public abstract class Sample {
         DelayUntilThread t2 = new DelayUntilThread(timestamp.getOffseted(5000)) {
             @Override
             public void trigger(ThreadTriggerWithReturnValueEvent e) throws Throwable {
-                System.out.println(String.format("[%s] delay until thread triggered!", new Timestamp()));
+                System.out.println(String.format("[%s] delay until event triggered!", new Timestamp()));
             }
             
             @Override

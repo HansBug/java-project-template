@@ -4,7 +4,7 @@ import events.thread.ThreadBeforeTriggerEvent;
 import events.thread.ThreadExceptionEvent;
 import events.thread.ThreadTriggerEvent;
 import events.thread.ThreadTriggerWithReturnValueEvent;
-import interfaces.thread.TriggerInterface;
+import interfaces.event.TriggerInterface;
 import models.thread.trigger.TriggerThread;
 import models.time.Timestamp;
 

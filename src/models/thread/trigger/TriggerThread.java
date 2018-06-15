@@ -2,7 +2,6 @@ package models.thread.trigger;
 
 import events.thread.ThreadBeforeTriggerEvent;
 import events.thread.ThreadTriggerWithReturnValueEvent;
-import interfaces.thread.TriggerWithReturnValueInterface;
 import models.thread.ApplicationThread;
 
 /**
@@ -16,7 +15,7 @@ import models.thread.ApplicationThread;
  *
  * @param <T> 返回值类型
  */
-public abstract class TriggerThread<T> extends ApplicationThread implements TriggerWithReturnValueInterface<T> {
+public abstract class TriggerThread<T> extends ApplicationThread {
     /**
      * 返回值
      */
@@ -55,4 +54,20 @@ public abstract class TriggerThread<T> extends ApplicationThread implements Trig
          */
         return this.return_value;
     }
+    
+    /**
+     * 触发等待
+     *
+     * @param e 触发前事件对象
+     * @throws Throwable 任意异常类
+     */
+    public abstract void beforeTrigger(ThreadBeforeTriggerEvent e) throws Throwable;
+    
+    /**
+     * 触发方法
+     *
+     * @param e 触发事件对象
+     * @throws Throwable 任意异常类
+     */
+    public abstract void trigger(ThreadTriggerWithReturnValueEvent<T> e) throws Throwable;
 }

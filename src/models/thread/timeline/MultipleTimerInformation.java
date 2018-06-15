@@ -1,6 +1,6 @@
 package models.thread.timeline;
 
-import interfaces.thread.TriggerInterface;
+import interfaces.event.TriggerInterface;
 import models.application.ApplicationModel;
 
 /**

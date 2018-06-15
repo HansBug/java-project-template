@@ -1,7 +1,7 @@
 package models.thread.timeline;
 
 import events.thread.ThreadTriggerEvent;
-import interfaces.thread.TriggerInterface;
+import interfaces.event.TriggerInterface;
 import models.time.Timestamp;
 
 /**

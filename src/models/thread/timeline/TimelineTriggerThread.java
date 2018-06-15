@@ -1,17 +1,7 @@
 package models.thread.timeline;
 
-import events.thread.ThreadExceptionEvent;
-import events.thread.ThreadTriggerEvent;
-import events.thread.ThreadTriggerWithReturnValueEvent;
-import interfaces.thread.AbstractTimelineThreadInterface;
-import interfaces.thread.TriggerInterface;
-import models.structure.object.TimeBasedObject;
-import models.thread.circulation.SimpleCirculationThread;
-import models.thread.trigger.DelayUntilThread;
-import models.thread.trigger.TriggerThread;
+import interfaces.event.TriggerInterface;
 import models.time.Timestamp;
-
-import java.util.PriorityQueue;
 
 /**
  * 时间线触发器线程

@@ -3,8 +3,7 @@ package models.thread.timeline;
 import events.thread.ThreadExceptionEvent;
 import events.thread.ThreadTriggerEvent;
 import events.thread.ThreadTriggerWithReturnValueEvent;
-import interfaces.thread.AbstractTimelineThreadInterface;
-import interfaces.thread.TriggerInterface;
+import interfaces.event.TriggerInterface;
 import models.structure.object.TimeBasedObject;
 import models.thread.circulation.SimpleCirculationThread;
 import models.thread.trigger.DelayUntilThread;
@@ -19,7 +18,7 @@ import java.util.PriorityQueue;
  * @param <T> 传入类型
  * @param <K> 内部交互类型
  */
-public abstract class AbstractTimelineTriggerThread<T, K> extends SimpleCirculationThread implements AbstractTimelineThreadInterface<T, K> {
+public abstract class AbstractTimelineTriggerThread<T, K> extends SimpleCirculationThread  {
     /**
      * 指向自己
      */
@@ -85,11 +84,11 @@ public abstract class AbstractTimelineTriggerThread<T, K> extends SimpleCirculat
              * @modifies:
              *          \this.object;
              *          \this.timestamp;
-             *          \this.thread;
+             *          \this.event;
              * @effects:
              *          \this.object = trigger;
              *          \this.timestamp = timestamp;
-             *          \this.thread will be set to the DelayUntilThread of the task and the trigger timestamp;
+             *          \this.event will be set to the DelayUntilThread of the task and the trigger timestamp;
              */
             super(trigger);
             setTimestamp(timestamp);
@@ -131,7 +130,7 @@ public abstract class AbstractTimelineTriggerThread<T, K> extends SimpleCirculat
         public void start() {
             /**
              * @effects:
-             *          \this.thread will be started;
+             *          \this.event will be started;
              */
             this.thread.start();
         }
@@ -292,4 +291,21 @@ public abstract class AbstractTimelineTriggerThread<T, K> extends SimpleCirculat
             this.lock_object.notifyAll();
         }
     }
+    
+    /**
+     * 数据解打包器
+     *
+     * @param pack 数据包
+     * @return 数据解打包结果
+     */
+    public abstract T getDataUncompress(K pack);
+    
+    /**
+     * 数据打包器
+     *
+     * @param trigger 触发器接口
+     * @param data    附加数据
+     * @return 数据打包结果
+     */
+    public abstract K getDataCompress(TriggerInterface trigger, T data);
 }
