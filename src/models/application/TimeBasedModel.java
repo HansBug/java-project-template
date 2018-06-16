@@ -13,7 +13,7 @@ import models.time.Timestamp;
  * 用途：
  * 1、对于基于时间的模型，可以直接继承，减少工作量
  */
-public class TimeBasedModel extends ApplicationModel implements TimeBasedInterface {
+public abstract class TimeBasedModel extends ApplicationModel implements TimeBasedInterface {
     /**
      * 时间戳属性
      */

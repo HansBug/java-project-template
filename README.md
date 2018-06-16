@@ -9,6 +9,11 @@ HansBug的java工程模板，<del>结构灵感取材于ruby on rails</del>2333
 
 ## 更新日志
 
+### update 2018.6.16
+* 新增等待锁WaitLock的演示方法
+* 新增TriggerAtOnceThread，用于快速创建无等待线程
+* 新增AttachedObjectModel和AttachedObjectInterface，用来广泛抽象带附加数据的对象
+
 ### update 2018.6.15
 * 继续修改架构
 * 去掉了不必要的接口使用，改用抽象方法

@@ -14,7 +14,7 @@ package models.application;
  * 1、在容易撞码的情况下不要使用此类
  * 2、或者在子类中进行判定重写
  */
-public class HashBasedModel extends ApplicationModel {
+public abstract class HashBasedModel extends ApplicationModel {
     
     /**
      * 基于hashCode返回值的相同判定

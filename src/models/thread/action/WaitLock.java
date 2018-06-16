@@ -1,5 +1,6 @@
 package models.thread.action;
 
+import interfaces.application.AttachedObjectInterface;
 import models.thread.ApplicationThreadModel;
 
 /**
@@ -7,7 +8,7 @@ import models.thread.ApplicationThreadModel;
  *
  * @param <T> 附加对象类型
  */
-public class WaitLock<T> extends ApplicationThreadModel {
+public class WaitLock<T> extends ApplicationThreadModel implements AttachedObjectInterface<T> {
     /**
      * 是否为锁定状态
      */
@@ -105,6 +106,7 @@ public class WaitLock<T> extends ApplicationThreadModel {
      *
      * @return 附加对象
      */
+    @Override
     public T getAttachedObject() {
         /**
          * @effects:

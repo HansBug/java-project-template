@@ -5,15 +5,18 @@ import interfaces.event.TriggerInterface;
 import models.structure.map.HashExpireMap;
 import models.file.FileAppendWriter;
 import models.file.LogWriter;
+import models.thread.action.WaitLock;
 import models.thread.circulation.SimpleCirculationThread;
 import models.thread.timeline.MultipleTimerThread;
 import models.thread.timeline.TimelineTriggerThread;
 import models.thread.circulation.TimerThread;
 import models.thread.trigger.DelayThread;
 import models.thread.trigger.DelayUntilThread;
+import models.thread.trigger.TriggerAtOnceThread;
 import models.time.Timestamp;
 
 import java.util.Map;
+import java.util.Scanner;
 
 import static java.lang.Thread.sleep;
 
@@ -21,6 +24,9 @@ import static java.lang.Thread.sleep;
  * demo类
  */
 public abstract class Sample {
+    
+    private static final Scanner scanner = new Scanner(System.in);
+    
     /**
      * 入口点方法
      *
@@ -28,6 +34,7 @@ public abstract class Sample {
      * @throws Throwable 异常
      */
     public static void main(String[] args) throws Throwable {
+        testWaitLock();
         testTimestamp();
         testWriters();
         testCirculationThread();
@@ -329,5 +336,49 @@ public abstract class Sample {
         Thread.sleep(5200);
         m.exitGracefully();
         m.join();
+    }
+    
+    
+    /**
+     * WaitLock等待锁效果展示
+     *
+     * @throws Throwable 任意异常类
+     */
+    private static void testWaitLock() throws Throwable {
+        WaitLock lock = new WaitLock();
+        lock.lock();
+        TriggerAtOnceThread t1 = new TriggerAtOnceThread() {
+            @Override
+            public void trigger(ThreadTriggerWithReturnValueEvent e) throws Throwable {
+                System.out.println("Thread 1 start wait.");
+                lock.tryWait();
+                System.out.println("Thread 1 wait complete.");
+            }
+            
+            @Override
+            public void exceptionCaught(ThreadExceptionEvent e) {
+            
+            }
+        };
+        t1.start();
+        TriggerAtOnceThread t2 = new TriggerAtOnceThread() {
+            @Override
+            public void trigger(ThreadTriggerWithReturnValueEvent e) throws Throwable {
+                System.out.println("Thread 2 start wait.");
+                lock.tryWait();
+                System.out.println("Thread 2 wait complete.");
+            }
+            
+            @Override
+            public void exceptionCaught(ThreadExceptionEvent e) {
+            
+            }
+        };
+        t2.start();
+        System.out.println("Please entry a line:");
+        scanner.nextLine();
+        lock.unlock();
+        t1.join();
+        t2.join();
     }
 }
